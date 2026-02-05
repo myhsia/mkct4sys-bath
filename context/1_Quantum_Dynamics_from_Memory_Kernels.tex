@@ -1,6 +1,6 @@
 \documentclass[preprint]{revtex4-2}
 
-\usepackage{mathtools, amssymb, fixdif, derivative, physics2, bm, bbm}
+\usepackage{mathtools, amssymb, fixdif, derivative, physics2, bm}
 \usephysicsmodule{ab, ab.braket, diagmat, xmat}
 \usepackage{lmodern}
 \usepackage[mono = false]{libertine}
@@ -14,7 +14,6 @@
 \newtheorem{example}{Example}
 \DeclareRobustCommand \iu {\mathrm i}
 \DeclareRobustCommand \upe {\mathrm e}
-\usepackage{graphicx}
 
 \begin{document}
 
@@ -39,7 +38,7 @@
 
 A function can be expanded into a series
 \begin{equation}
-  y(x) \approx \sum_n^N \frac{y^{(n)}}{n!} x^n = \sum_n^N c_n x^n
+  y(x) \approx \sum_n^N \frac{y^{(n)}}{n!} x^n = \sum_n^N c_n x^n.
 \end{equation}
 For the Taylor expansion, it can converge slowly.
 Pad\'e constructs a rational function $R(x)$
@@ -51,7 +50,7 @@ converge faster than that of Taylor.
 \begin{example}
   Taylor and Pad\'e approximation for exponent.
   \[
-    y(x) = \exp[-(2 + 2\iu)x] = \upe^{-\alpha x}
+    y(x) = \exp[-(2 + 2\iu)x] = \upe^{-\alpha x}.
   \]
   The top 3, 5, 7, 8, 9, 11, 13 terms approximation of Taylor expansion and
   Pad\'e are plotted as (\textsf{Python} source is avaliable at
@@ -72,5 +71,32 @@ converge faster than that of Taylor.
     \caption{Converge trends between Taylor and Pad\'e approximations}
   \end{figure}
 \end{example}
+
+\section{Memory Kernel Coupling Theory}
+
+The challenge is $\upe^{Q\iu\mathcal Lt}$.
+The calculation of memory kernels are
+\[
+  \Omega \equiv \braket<\iu\mathcal L\hat A|\hat A>, \quad
+  K(t) \equiv
+\]
+
+The target quantity of MKCT
+\begin{equation}
+  K(t) \equiv \braket<\mathrm i \mathcal L f(t)|A> \braket<A|A>^{-1},\enspace
+  f(t) \equiv \mathrm e^{\mathcal Q\mathrm i\mathcal Lt}
+              \mathcal Q\mathrm i\mathcal LA
+\end{equation}
+Introduce higher-order kernels
+\[
+  K_n(t) \equiv \braket<(\iu\mathcal L)^n f(t)|A> \braket<A|A>^{-1}
+\]
+Its derivative
+\[
+  \odv*{f(t)}t = \iu\mathcal Lf(t) - K_1(t)A,\enspace
+  \odv*{K_n(t)}t
+= K_{n+1}(t) - K_1(t)\braket<(\iu\mathcal L)^nA|A>\braket<A|A>^{-1}
+= K_{n+1}(t) - K_1(t)\Omega_n
+\]
 
 \end{document}

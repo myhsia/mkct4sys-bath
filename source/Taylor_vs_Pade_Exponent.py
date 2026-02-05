@@ -25,7 +25,7 @@ alpha = 2 + 2j
 x = np.linspace(-1, 5, 600000)
 y = np.exp(-alpha * x)
 order_list = [(1,2), (2,3), (3,4), (4,4), (4,5), (5,6), (6,7)]
-colors = ['magenta', 'blue', 'green', 'olive', 'orange', 'red', 'purple']
+colors     = ['magenta', 'blue', 'green', 'olive', 'orange', 'red', 'purple']
 
 plt.rc('text', usetex = True)
 plt.rc('text.latex', preamble = r'\usepackage{sansmath, xfrac} \sansmath')
@@ -50,7 +50,6 @@ with PdfPages(work_path + 'Taylor_vs_Pade_Exponent.pdf') as pdf:
   plt.yticks(fontsize = 18)
   pdf.savefig(bbox_inches = 'tight')
   plt.close()
-
   plt.figure(figsize = (9,6))
   plt.axvline(x = 0, color = 'gray', linestyle = '-.', linewidth = 4)
   for i, (m, n) in enumerate(order_list):

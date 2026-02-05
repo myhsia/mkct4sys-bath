@@ -1,5 +1,7 @@
 # Unnecessary files
 /build
+/article
+/source/test
 *.zip
 *.pdf
 *.curlopt
