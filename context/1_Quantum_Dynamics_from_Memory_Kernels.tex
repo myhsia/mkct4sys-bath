@@ -1,10 +1,11 @@
 \documentclass[preprint]{revtex4-2}
 
-\usepackage{mathtools, amssymb, fixdif, derivative, physics2, bm}
-\usephysicsmodule{ab, ab.braket, diagmat, xmat}
+\usepackage{mathtools, bm, amssymb, fixdif, derivative, physics3, microtype}
+\usephxmodu{ab, ab.braket, operator}
 \usepackage{lmodern}
 \usepackage[mono = false]{libertine}
 \usepackage[hidelinks, colorlinks]{hyperref}
+\usepackage{zref-clever}
 \makeatletter
 \let\oldHyPsd@CatcodeWarning\HyPsd@CatcodeWarning
 \renewcommand \HyPsd@CatcodeWarning [1]%
@@ -12,12 +13,10 @@
 \pdfstringdefDisableCommands{\let\HyPsd@CatcodeWarning\@gobble}
 \makeatother
 \newtheorem{example}{Example}
-\DeclareRobustCommand \iu {\mathrm i}
-\DeclareRobustCommand \upe {\mathrm e}
 
 \begin{document}
 
-\title{MKCT --- Quantum Dynamics from Memory Kernels}
+\title{MKCT: Note on Quantum Dynamics from Memory Kernels}
 \author{Mingyu Xia}
 \affiliation{Laboratory of Theoretical and Computational Chemistry,
   Westlake University}

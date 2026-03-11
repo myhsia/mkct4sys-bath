@@ -1,0 +1,333 @@
+\documentclass[preprint]{revtex4-2}
+
+\usepackage{mathtools, bm, amssymb, fixdif, derivative, physics3, microtype}
+\usephxmodu{ab, ab.braket, operator}
+\usepackage[mono = false]{libertine}
+\usepackage[hidelinks, colorlinks]{hyperref}
+\usepackage{zref-clever}
+\makeatletter
+\patchcmd{\frontmatter@abstract@produce}
+  {\vskip200\p@\@plus1fil
+   \penalty-200\relax
+   \vskip-200\p@\@plus-1fil}{}{}{}
+\let\oldHyPsd@CatcodeWarning\HyPsd@CatcodeWarning
+\renewcommand \HyPsd@CatcodeWarning [1]%
+  {\ifnum\pdfstrcmp{#1}{math shift}=0 \else \oldHyPsd@CatcodeWarning{#1} \fi}
+\pdfstringdefDisableCommands{\let\HyPsd@CatcodeWarning\@gobble}
+\renewcommand *\@email[2]{\endgroup \@AF@join
+  {#1\href {mailto:#2}{\ttfamily #2}}}
+\makeatother
+\newtheorem{example}{Example}
+
+\begin{document}
+
+\title{MKCT: Note on Quantum Case v.s. Classical Case}
+\author{Mingyu Xia}
+\email{xiamingyu@westlake.edu.cn}
+\affiliation{Department of Physics, Westlake University}
+\date{Released 2026-mm-dd}
+
+\maketitle
+
+\section{System-bath Model}
+
+The Hamiltonian for the System-bath model can be described by three terms,
+\begin{equation}\label{eq:tot.hamiltonian}
+  \hat H = \hat H_\text{sys} + \hat H_\text{bath} + \hat H_\text{sys-bath}
+= \hat H_\text{sys}
+  + \sum_j \frac{\hbar \omega_j}{2} (\hat p_j^2 + \hat q_j^2)
+  + \hat V U(\hat q)
+\end{equation}
+where the bath mode operators
+\[
+  \hat q_j \equiv \frac{\hat b_j^\dagger + \hat b_j}{\sqrt2}, \quad
+  \hat p_j \equiv \frac{\hat b_j - \hat b_j^\dagger}{\iu\sqrt2}
+\]
+are the position and momentum operators for the $j$th mode of a harmonic bath
+with frequency $\omega_j$,
+which can be represented in ladder operators
+\[
+  \hat H_\text{bath}
+= \sum_j \hbar \omega_j \ab(\hat b_j^\dagger \hat b_j + \frac12).
+\]
+The arbitrary potential energy expressed in polynomial
+\[
+  U(\hat q) = \alpha_0 + \alpha_1 \hat q + \alpha_2 \hat q^2 + \ldots,
+\]
+with $\hat q = \sum_j c_j \hat q_j$ stands for the collective mode.
+
+The system term will be determined under different usages.
+\emph{We take the God-given unit ($\hbar = 1$) for simplification in the
+following derivations.}
+
+\section{Application of the Liouvillian}
+
+In the Application of the Liouvillian,
+to compute $(\iu\mathcal L)^n\hat A$ to arbitrary order,
+write down the first few terms, which satisfy
+\begin{equation}\label{eq:act.Liouvillian}
+  (\iu\mathcal L)^n\hat A = \sum_\text{all terms}
+    \hat O \otimes \prod_j \hat Q_{m_j} \prod_k \hat P_{n_k},
+\end{equation}
+with the generalized bath mode operators
+\begin{align*}
+  \hat P_n = \sum_j c_j \omega_j^n \hat p_j,\quad
+  \hat Q_m = \sum_j c_j \omega_j^m \hat q_j.
+\end{align*}
+
+Given the generator,
+\begin{equation}\label{eq:generator}
+  \hat G = \sum_\text{all terms} \hat O \otimes
+    \prod_j \hat Q_{m_j} \prod_k \hat P_{n_k}
+= \hat O \prod_j \hat Q_{m_j} \prod_k \hat P_{n_k},
+\end{equation}
+where a generic term in the sum is of the form
+$\hat O \prod_j \hat Q_{m_j} \prod_k \hat P_{n_k}$;
+each term is a product of a system operator $\hat O$
+and a polynomial of bath operators.
+
+\subsection{Quantum case}
+
+In quantum case, acting the Liouvillian on the generator, we have
+\[
+  \iu\mathcal L\hat G = \iu[\hat H, \hat G],
+\]
+or more commonly,
+\begin{equation}\label{eq:quantum.Liouvillian}
+  \iu\mathcal L \mathord\cdot = \iu[\hat H, \mathord\cdot].
+\end{equation}
+
+The Liouvillian can be also split into three corresponding terms,
+\begin{equation}\label{eq:quantum.Liouvillian.act}
+    \iu\mathcal L \hat G =
+    \iu\mathcal L_\text{sys}      \hat G
+  + \iu\mathcal L_\text{bath}     \hat G
+  + \iu\mathcal L_\text{sys-bath} \hat G
+= \iu[\hat H_\text{sys},      \hat G]
++ \iu[\hat H_\text{bath},     \hat G]
++ \iu[\hat H_\text{sys-bath}, \hat G],
+\end{equation}
+which will be discussed respectively.
+
+\subsubsection{The System term in quantum case}
+
+Substituting $\hat G$ into the first (system) term,
+it is straightforward that
+\begin{equation}\label{eq:quantum.Liouvillian.sys}
+  \iu\mathcal L_\text{sys} \hat G
+= \iu[\hat H_\text{sys}, \hat G]
+= \iu[\hat H_\text{sys}, \hat O] \prod_j \hat Q_{m_j} \prod_k \hat P_{n_k}.
+\end{equation}
+
+\subsubsection{The bath term in quantum case}
+
+For the second (bath) term, act the Liouvillian on $\hat p_j$ first
+\begin{align*}
+  \iu\mathcal L_\text{bath} \hat p_j & = \iu[\hat H_\text{bath}, \hat p_j]
+= \frac{\iu}{2} \omega_j [\hat p_j^2 + \hat q_j^2, \hat p_j]
+= -\omega_j \hat q_j,\\
+\intertext{where the relation
+  $[AB, C] = A[B, C] + [A, C]B$ is applied. Similarly, act it on $\hat q_j$}
+  \iu\mathcal L_\text{bath} \hat q_j & = \iu[\hat H_\text{bath}, \hat q_j]
+= \frac{\iu}{2} \omega_j [\hat p_j^2 + \hat q_j^2, \hat q_j]
+= +\omega_j \hat p_j.
+\end{align*}
+
+Furthermore, act the Liouvillian on on the generalized coordinates
+$\hat P_n$ and $\hat Q_m$, one can obtain
+\begin{equation}\label{eq:quantum.Liouvillian.act.coordinate_momentum}
+  \iu\mathcal L_\text{bath} \hat P_n
+= \sum_j c_j \omega_j^n (\iu \mathcal L_\text{bath} \hat p_j)
+= -\sum_j c_j \omega_j^{n+1} \hat q_j \equiv -\hat Q_{n+1},\quad
+  \iu\mathcal L_\text{bath} \hat Q_m = +\hat P_{m+1}.
+\end{equation}
+
+Next, by substituting~\zcref{eq:quantum.Liouvillian.act.coordinate_momentum}
+and $H_\text{bath}$ in~\zcref{eq:quantum.Liouvillian},
+making use of the general commutation relation,
+\[
+  \ab[A, \prod_{i=1}^N B_i]
+= \sum_{i=1}^N \prod_{\alpha_1=0}^{i-1} B_{\alpha_1} [A, B_i]
+               \prod_{\alpha_2=i+1}^N B_{\alpha_2},\quad
+  B_0 \equiv \identity,
+\]
+one can obtain the result of acting the Liouvillian on the bath term
+in quantum case
+\begin{equation}\label{eq:quantum.Liouvillian.act.bath}
+  \begin{aligned}
+  \iu\mathcal L_\text{bath} \hat G
+& = \iu \hat O \ab[\hat H_\text{bath}, \prod_j \hat Q_{m_j}]
+    \prod_k \hat P_{n_k}
+    + \iu \hat O \prod_j \hat Q_{m_j}
+    \ab[\hat H_\text{bath}, \prod_k \hat P_{n_k}]\\
+& = \iu \hat O \sum_j
+    \prod_{\alpha_1<j} \hat Q_{m_{\alpha_1}}
+    [\hat H_\text{bath}, \hat Q_{m_j}]
+    \prod_{\alpha_2>j} \hat Q_{m_{\alpha_2}}
+    \prod_k \hat P_{n_k}\\
+& \quad
+    + \iu \hat O \prod_j \hat Q_{m_j} \sum_k
+    \prod_{\alpha_1<k} \hat P_{n_{\alpha_1}}
+    [\hat H_\text{bath}, \hat P_{n_k}]
+    \prod_{\alpha_2>k} \hat P_{n_{\alpha_2}}\\
+& = \hat O \Biggl(\sum_j
+    \prod_{\alpha_1<j} \hat Q_{m_{\alpha_1}} \hat P_{m_j+1}
+    \prod_{\alpha_2>j} \hat Q_{m_{\alpha_2}}
+    \prod_k \hat P_{n_k}\\
+& \quad - \prod_j \hat Q_{m_j} \sum_k
+    \prod_{\alpha_1<k} \hat P_{n_{\alpha_1}} \hat Q_{n_k+1}
+    \prod_{\alpha_2>k} \hat P_{n_{\alpha_2}}\Biggr).
+  \end{aligned}
+\end{equation}
+The derivation of acting the Liouvillian on the bath term
+used $[\hat H_\text{bath}, \hat O] = 0$.
+
+\subsubsection{The system-bath term in quantum case}
+
+Since there exists
+\[
+  [\hat O, \hat q_j] = [\hat O, \hat p_j]
+= [\hat V, \hat q_j] = [\hat V, \hat p_j] = 0, \quad [\hat O, \hat V] \neq 0,
+\]
+then acting the Liouvillian on the system-bath term directly,
+\begin{equation}\label{eq:quantum.Liouvillian.act.sys-bath}
+  \begin{aligned}
+  \iu\mathcal L_\text{sys-bath} \hat G = \iu[\hat H_\text{sys-bath}, \hat G]
+& = \iu\hat V U(\hat q) \hat O \prod_j \hat Q_{m_j} \prod_k \hat P_{n_k} -
+    \iu\hat O \prod_j \hat Q_{m_j} \prod_k \hat P_{n_k} \hat V U(\hat q)\\
+& = \iu \hat V \hat O U(\hat q) \prod_j \hat Q_{m_j} \prod_k \hat P_{n_k}
+  - \iu \hat O \hat V \prod_j \hat Q_{m_j} \prod_k \hat P_{n_k} U(\hat q)
+  \end{aligned}
+\end{equation}
+
+\subsection{Classical case}
+
+In the classical case, the bath modes are described by canonical coordinates
+$q_j$ and momenta $p_j$ with Poisson bracket $\{q_j, p_k\} = \delta_{jk}$,
+all products are ordinary commutative multiplication.
+
+The system Hamiltonian depends only on the system variables,
+the bath and system-bath Hamiltonians are
+\[
+  H_\text{bath} = \sum_j \frac{\omega_j}{2}(p_j^2 + q_j^2),\quad
+  H_\text{sys-bath} = V U(q),\quad q = \sum_j c_j q_j,
+\]
+where $V$ is a function of the system variables and $U(q)$ is a smooth function
+of the collective bath coordinate.  
+
+The generator (a generic term) is now a classical function  
+\[
+  G = O \prod_j Q_{m_j} \prod_k P_{n_k},\quad
+  Q_m = \sum_j c_j \omega_j^m q_j,\quad
+  P_n = \sum_j c_j \omega_j^n p_j,
+\]
+with $O$ a function of the system variables.
+
+In contrast to the quantum case,
+the Liouvillian in \zcref{eq:quantum.Liouvillian} will become
+\begin{equation}
+  \iu\mathcal L \cdot = \{\cdot, H\}
+= \sum_i \ab(\pdv{\,\mathord\cdot}{q_i} \pdv H {p_i}
+  - \pdv H {q_i} \pdv{\,\mathord\cdot}{p_i}),
+\end{equation}
+similarly, it can be splited into three corresponding terms,
+\begin{equation}\label{eq:classical.Liouvillian.act}
+  \iu\mathcal LG = \iu\mathcal L_\text{sys}G
+  + \iu\mathcal L_\text{bath}G + \iu\mathcal L_\text{sys-bath}G.
+\end{equation}
+which will be discussed respectively.
+
+\subsubsection{The system term in classical case}
+
+Substituting $\hat G$ into the first (system) term,
+it is straightforward that
+\begin{equation}\label{eq:classical.Liouvillian.sys}
+  \iu\mathcal L_\text{sys}G
+  = \{O, H_\text{sys}\} \prod_j Q_{m_j} \prod_k P_{n_k}.
+\end{equation}
+
+\subsubsection{The bath term in classical case}
+
+For the second (bath) term, act the Liouvillian on $q_j$ and $p_j$
+respectively first
+\[
+  \iu \mathcal L_\text{bath} q_j = \{q_j, H_\text{bath}\} = \omega_j p_j,\quad
+  \iu \mathcal L_\text{bath} p_j = \{p_j, H_\text{bath}\} = -\omega_j q_j,
+\]
+where the filtering property of the $\delta$-function
+$\sum_i \pdv{x_j}{x_i} f_i = \sum_i \delta_{ji} f_i = f_j$ is applied.
+
+Furthermore, act the Liouvillian on the generalized coordinates
+$P_n$ and $Q_m$, one can obtain
+\begin{equation}\label{eq:classical.Liouvillian.act.coordinate_momentum}
+  \iu\mathcal L_\text{bath} Q_m
+  = \{Q_m, H_\text{bath}\} = P_{m+1},\quad
+  \{P_n, H_\text{bath}\} = -Q_{n+1}.
+\end{equation}
+
+Since the Poisson brackets satisfy an identity,
+$\{fh, g\} = \{f, g\}h + f\{h, g\}$, which is similar to the commutator,
+then, we can also obtain the general product rule,
+\[
+  \ab\{\prod_{i=1}^N g_n, f\}
+= \sum_{i=1}^N \{g_i, f\} \prod_{\alpha=0,\,\alpha\neq i}^N g_\alpha,\quad
+  g_0 = 1,
+\]
+one can obtain the result of acting the Liouvillian on the bath term
+in classical case
+\begin{equation}\label{eq:classical.Liouvillian.act.bath}
+  \begin{aligned}
+  \iu\mathcal L_\text{bath} G
+& = O \ab\{\prod_j Q_{m_j}, H_\text{bath}\} \prod_k P_{n_k}
+  + O \prod_j Q_{m_j} \ab\{\prod_k P_{n_k}, H_\text{bath}\}\\
+& = O \sum_j \{Q_{m_j}, H_\text{bath}\}
+    \prod_{\alpha\neq j} Q_{m_\alpha} \prod_k P_{n_k}
+    + O \prod_j Q_{m_j} \sum_k \{P_{n_k}, H_\text{bath}\}
+    \prod_{\alpha\neq k} P_{n_\alpha}\\
+& = O \ab[\sum_j P_{m_{j+1}} \prod_{\alpha\neq j} Q_{m_\alpha} \prod_k P_{n_k}
+        - \sum_k Q_{n_{k+1}} \prod_j Q_{m_j} \prod_{\alpha\neq k} P_{n_\alpha}].
+  \end{aligned}
+\end{equation}
+The result is much more elegant than that of the quantum case,
+since the order of $P$ and $Q$ can be exchanged freely.
+
+\subsubsection{The system-bath term in classical case}
+
+Since only the Poisson brackets of $q$, $O$, $V$ to $U(q)$ are zero,
+we only have to expanding the Poisson bracket
+of the generalized bath mode function using the general product rule,
+\begin{align*}
+  \ab\{P_{n_k}, U(q)\}
+& = \ab\{\sum_j c_j \omega_j^{n_k} p_j,
+      \sum_{i=0} \alpha_i \sum_{j'} c_{j'}^i q_{j'}^i\}\\
+& = -\sum_j c_j \omega_j^{n_k} \sum_{i=1} \alpha_i \sum_{j'}
+      c_{j'}^i \sum_{i'} i q_{j'}^{i-1} \delta_{j'i'} \delta_{ji'}\\
+& =-\sum_j c_j^2 \omega_j^{n_k} \sum_{i=1} i \alpha_i c_j^{i-1} q_j^{i-1}
+= -\tilde U(q) \sum_j c_j^2 \omega_j^{n_k} = -\tilde U(q) \mu_{n_k},
+\end{align*}
+where $\mu_n \equiv \sum_j c_j^2 \omega_j^n$ denotes the bath spectral moments.
+
+Note that a $c_j$ has been brought to the front and there forms a new polynomial
+\[
+  \tilde U(q) = \alpha_1 + 2\alpha_2 q + 3\alpha_3 q^2 + \ldots,
+\]
+then using the general product rule,
+\[
+  \ab\{\prod_k P_{n_k}, U(q)\}
+= -\tilde U(q) \sum_k \mu_{n_k} \prod_{\alpha\neq k} P_{n_\alpha}
+\]
+
+Finally, acting the Liouvillian on the third (system-bath) term,
+substituting the result above,
+\begin{equation}\label{eq:classical.Liouvillian.act.sys-bath}
+  \begin{aligned}
+    \iu\mathcal L_\text{sys-bath}G & = \{G, H_\text{sys-bath}\}\\
+& = \{O, V\} U(q) \prod_j Q_{m_j} \prod_k P_{n_k}
+    + O V \prod_j Q_{m_j} \ab\{\prod_k P_{n_k}, U(q)\},\\
+& = \{O, V\} U(q) \prod_j Q_{m_j} \prod_k P_{n_k}
+    - O V \tilde U(q) \prod_j Q_{m_j}
+    \sum_k \mu_{n_k} \prod_{\alpha\neq k} P_{n_\alpha}.
+  \end{aligned}
+\end{equation}
+
+\end{document}
