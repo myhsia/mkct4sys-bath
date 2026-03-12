@@ -29,16 +29,19 @@
 
 \maketitle
 
-\section{System-bath Model}
+\section{Open quantum system}
 
-The Hamiltonian for the System-bath model can be described by three terms,
+The Hamiltonian for the model can be described by three terms,
 \begin{equation}\label{eq:tot.hamiltonian}
   \hat H = \hat H_\text{sys} + \hat H_\text{bath} + \hat H_\text{sys-bath}
 = \hat H_\text{sys}
   + \sum_j \frac{\hbar \omega_j}{2} (\hat p_j^2 + \hat q_j^2)
   + \hat V U(\hat q)
 \end{equation}
-where the bath mode operators
+where $\hat H_\text{sys}$ represents the system,
+$\hat H_\text{bath}$ represents the bath, and
+$\hat H_\text{sys-bath}$ represents their interaction.
+The bath mode operators
 \[
   \hat q_j \equiv \frac{\hat b_j^\dagger + \hat b_j}{\sqrt2}, \quad
   \hat p_j \equiv \frac{\hat b_j - \hat b_j^\dagger}{\iu\sqrt2}
@@ -303,29 +306,24 @@ of the generalized bath mode function using the general product rule,
 & = -\sum_j c_j \omega_j^{n_k} \sum_{i=1} \alpha_i \sum_{j'}
       c_{j'}^i \sum_{i'} i q_{j'}^{i-1} \delta_{j'i'} \delta_{ji'}\\
 & =-\sum_j c_j^2 \omega_j^{n_k} \sum_{i=1} i \alpha_i c_j^{i-1} q_j^{i-1}
-= -\tilde U(q) \sum_j c_j^2 \omega_j^{n_k} = -\tilde U(q) \mu_{n_k},
+= -\odv{U(q)}{q} \sum_j c_j^2 \omega_j^{n_k} = -U'(q) \mu_{n_k},
 \end{align*}
 where $\mu_n \equiv \sum_j c_j^2 \omega_j^n$ denotes the bath spectral moments.
-
-Note that a $c_j$ has been brought to the front and there forms a new polynomial
-\[
-  \tilde U(q) = \alpha_1 + 2\alpha_2 q + 3\alpha_3 q^2 + \ldots,
-\]
-then using the general product rule,
+Then, using the general product rule,
 \[
   \ab\{\prod_k P_{n_k}, U(q)\}
-= -\tilde U(q) \sum_k \mu_{n_k} \prod_{\alpha\neq k} P_{n_\alpha}
+= -\tilde U(q) \sum_k \mu_{n_k} \prod_{\alpha\neq k} P_{n_\alpha}.
 \]
 
-Finally, acting the Liouvillian on the third (system-bath) term,
-substituting the result above,
+Finally, acting the Liouvillian on the third (system-bath) term
+by substituting the result above,
 \begin{equation}\label{eq:classical.Liouvillian.act.sys-bath}
   \begin{aligned}
     \iu\mathcal L_\text{sys-bath}G & = \{G, H_\text{sys-bath}\}\\
 & = \{O, V\} U(q) \prod_j Q_{m_j} \prod_k P_{n_k}
     + O V \prod_j Q_{m_j} \ab\{\prod_k P_{n_k}, U(q)\},\\
 & = \{O, V\} U(q) \prod_j Q_{m_j} \prod_k P_{n_k}
-    - O V \tilde U(q) \prod_j Q_{m_j}
+    - O V U'(q) \prod_j Q_{m_j}
     \sum_k \mu_{n_k} \prod_{\alpha\neq k} P_{n_\alpha}.
   \end{aligned}
 \end{equation}
