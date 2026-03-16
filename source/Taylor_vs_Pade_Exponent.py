@@ -52,6 +52,7 @@ with PdfPages(work_path + 'Taylor_vs_Pade_Exponent.pdf') as pdf:
   plt.close()
   plt.figure(figsize = (9,6))
   plt.axvline(x = 0, color = 'gray', linestyle = '-.', linewidth = 4)
+
   for i, (m, n) in enumerate(order_list):
     pade_y = pade_exp(x, m, n, alpha)
     plt.plot(x, pade_y, color = colors[i], linewidth = 2, alpha = .6,
