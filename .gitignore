@@ -24,3 +24,6 @@
 *.synctex(busy)
 *.toc
 *.xml
+
+# Python aux files
+/**/__pycache__

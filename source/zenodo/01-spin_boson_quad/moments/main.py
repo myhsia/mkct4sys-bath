@@ -10,6 +10,7 @@ from joblib import Memory
 
 
 import os
+work_path = os.path.dirname(__file__) + '/'
 import sys
 import time
 import argparse
@@ -30,7 +31,7 @@ memory.clear(warn=False)
 
 
 # load the parameters
-with open("../params.yaml", "r") as f:
+with open(work_path + "../params.yaml", "r") as f:
     params = yaml.safe_load(f)
     rescale = params["scale"]
 
