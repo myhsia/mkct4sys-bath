@@ -1,4 +1,4 @@
-\documentclass[preprint]{revtex4-2}
+\documentclass[aps, pra, preprint]{revtex4-2}
 
 \usepackage{mathtools, bm, amssymb, fixdif, derivative, physics3, microtype}
 \usephxmodu{ab, ab.braket, operator}
@@ -119,8 +119,9 @@ it is straightforward that
 \begin{equation}\label{eq:quantum.Liouvillian.sys}
   \iu\mathcal L_\text{sys} \hat G
 = \iu[\hat H_\text{sys}, \hat G]
-= \iu[\hat H_\text{sys}, \hat O] \prod_j \hat Q_{m_j} \prod_k \hat P_{n_k}.
+= \iu[\hat H_\text{sys}, \hat O] \prod_j \hat Q_{m_j} \prod_k \hat P_{n_k},
 \end{equation}
+which has also been demonstrated in~\cite{10.1063/5.0273707}.
 
 \subsubsection{The bath term in quantum case}
 
@@ -179,9 +180,10 @@ in quantum case
     \prod_k \hat P_{n_k}\\
 & \quad - \prod_j \hat Q_{m_j} \sum_k
     \prod_{\alpha_1<k} \hat P_{n_{\alpha_1}} \hat Q_{n_k+1}
-    \prod_{\alpha_2>k} \hat P_{n_{\alpha_2}}\Biggr).
+    \prod_{\alpha_2>k} \hat P_{n_{\alpha_2}}\Biggr),
   \end{aligned}
 \end{equation}
+which satisfies the expression in~\cite{10.1063/5.0273707}.
 The derivation of acting the Liouvillian on the bath term
 used $[\hat H_\text{bath}, \hat O] = 0$.
 
@@ -202,6 +204,7 @@ then acting the Liouvillian on the system-bath term directly,
   - \iu \hat O \hat V \prod_j \hat Q_{m_j} \prod_k \hat P_{n_k} U(\hat q)
   \end{aligned}
 \end{equation}
+which satisfies the expression in~\cite{10.1063/5.0273707}.
 
 \subsection{Classical case}
 
@@ -331,5 +334,139 @@ Then, we can evaluate the higher-order moments $\Omega_n$ in
 Memory kernel coupling theory (MKCT).
 
 \section{Evaluation of the Mori products}
+
+In~\cite{10.1063/5.0273707}, the Mori-product has been defined as
+\begin{equation}\label{eq:quantum.mori.product}
+  (\hat A, \hat B) =
+  \Tr(\hat A\hat B^\dagger \hat\sigma_0 \otimes \hat\rho_\text{eq}^\text{bath})
+\end{equation}
+for two arbitrary system operators $\hat A$ and $\hat B$,
+$\hat\sigma_0$ is the initial system density operator,
+and $\hat\rho_\text{eq}^\text{bath}$ is the equilibrium bath density operator,
+with $\beta = 1/T$ being the inverse temperature.
+
+As the instruction in~\cite{10.1063/5.0273707},
+we need to evaluate the Mori-product of the generator $\hat G$
+and an arbitrary system operator $\hat A$, it can be expressed as
+\begin{equation}\label{eq:quantum.generator.mori-product}
+  (\hat G, \hat A)
+= \Tr(\hat O \hat A \hat\sigma_0)
+  \Tr\ab(\prod_j \hat Q_{m_j} \prod_k \hat P_{n_k}
+         \hat \rho_\text{eq}^\text{bath}),
+\end{equation}
+this evaluation is in the quantum case.
+Now, we evaluate the product in the classical case.
+
+In the classical case, the Mori product for two phase-space functions $X$ and $Y$ is defined as the average over the initial factorised distribution:
+
+\[
+(X, Y) = \int d\Gamma\; \rho_0(\Gamma)\, X(\Gamma) Y(\Gamma), \qquad
+\rho_0 = \sigma_0(\text{sys}) \times \rho_{\mathrm{eq}}^{\text{bath}}(\text{bath}).
+\]
+
+Here $\sigma_0$ is an arbitrary initial system distribution (e.g., a pure state or a thermal state) and $\rho_{\mathrm{eq}}^{\text{bath}}$ is the classical canonical distribution of the harmonic bath:
+
+\[
+\rho_{\mathrm{eq}}^{\text{bath}} = \prod_j \frac{\beta\omega_j}{2\pi}\, e^{-\beta\omega_j(p_j^2+q_j^2)/2},
+\]
+
+with $\beta = 1/(k_B T)$. The bath modes are independent Gaussian variables with zero mean and variances $\langle q_j^2\rangle = \langle p_j^2\rangle = 1/(\beta\omega_j)$.
+
+\subsection{Factorisation of the Mori product}
+
+Consider a generic term of the generator (as obtained from repeated action of the Liouvillian)
+\[
+G = O(\text{sys}) \prod_j Q_{m_j} \prod_k P_{n_k},
+\]
+where $O$ depends only on the system variables, and
+\[
+Q_m = \sum_j c_j \omega_j^m q_j,\qquad 
+P_n = \sum_j c_j \omega_j^n p_j.
+\]
+
+For an arbitrary system function $A$ (depending only on system variables), the Mori product factorises because the system and bath distributions are independent:
+\[
+(G, A) = \ab(\int d\text{sys}\; \sigma_0(\text{sys})\, O(\text{sys}) A(\text{sys})) \times 
+\expval{\prod_j Q_{m_j} \prod_k P_{n_k}}_	ext{bath},
+\]
+where $\expval{\cdot}_\text{bath}$ denotes
+the average over $\rho_\text{eq}^\text{bath}$.
+
+\subsection{Bath averages}
+
+Because the bath equilibrium is a product of independent Gaussians for each mode, the variables $\{q_j\}$ and $\{p_j\}$ are independent. Consequently, the sets $\{Q_m\}$ and $\{P_n\}$ are independent as well, and each set is jointly Gaussian with zero mean. Their covariance matrices are
+\[
+\expval{Q_m Q_n} = \sum_j c_j^2 \omega_j^{m+n} \expval{q_j^2} 
+= \frac{1}{\beta} \sum_j c_j^2 \omega_j^{m+n-1},
+\]
+\[
+\expval{P_m P_n} = \frac{1}{\beta} \sum_j c_j^2 \omega_j^{m+n-1} = \expval{Q_m Q_n},
+\]
+and $\expval{Q_m P_n} = 0$.
+
+Introduce the classical bath spectral moments
+\[
+\mu_n = \sum_j c_j^2 \omega_j^n,
+\qquad
+\eta_n^{\text{class}} = \frac{1}{\beta} \mu_{n-1}
+= \frac{2}{\pi\beta}\int_0^\infty d\omega\, J(\omega)\,\omega^{n-1},
+\]
+where $J(\omega) = \frac{\pi}{2}\sum_j c_j^2 \delta(\omega-\omega_j)$ is the spectral density. Then
+\[
+\expval{Q_m Q_n} = \eta_{m+n}^{\text{class}},\qquad
+\expval{P_m P_n} = \eta_{m+n}^{\text{class}}.
+\]
+
+\subsection{Generating function}
+
+To compute the average of a product of several $Q$'s and $P$'s, we use the Gaussian generating function. For the $Q$'s,
+\[
+\expval{\exp\ab(\sum_a \lambda_a Q_{m_a})}_\text{bath}
+= \exp\ab(\frac12 \sum_{a,b} \lambda_a\lambda_b \expval{Q_{m_a}Q_{m_b}}),
+\]
+and similarly for the $P$'s with independent variables $\{\lambda'_c\}$. Because $Q$ and $P$ are independent, the joint generating function factorises:
+\[
+  f(\{\lambda_a\},\{\lambda'_c\}) = 
+  \exp\ab(\frac12 \sum_{a,b} \lambda_a\lambda_b \eta_{m_a+m_b}^{\text{class}})
+  \exp\ab(\frac12 \sum_{c,d} \lambda'_c\lambda'_d \eta_{n_c+n_d}^{\text{class}}).
+\]
+
+The desired average is then
+\[
+\expval{\prod_j Q_{m_j} \prod_k P_{n_k}}_\text{bath}
+= \ab(\prod_j \frac{\partial}{\partial\lambda_j})
+  \ab(\prod_k \frac{\partial}{\partial\lambda'_k})
+  f(\{\lambda\},\{\lambda'\}) \Big|_{\lambda=\lambda'=0}.
+\]
+Because the generating function is even, the average vanishes unless the number of $Q$ factors and the number of $P$ factors are both even. When they are even, the result factorises into a product of two independent Gaussian moments:
+\[
+  \expval{\prod_j Q_{m_j}}_\text{bath}
+= \sum_\text{pairings of $\{j\}$}
+  \prod_\text{pairs $(a,b)$} \eta_{m_a+m_b}^{\text{class}},\quad
+  \expval{\prod_k P_{n_k}}_\text{bath}
+= \sum_{\text{pairings of }\{k\}}
+  \prod_{\text{pairs }(c,d)} \eta_{n_c+n_d}^{\text{class}},
+\]
+and the full average is the product of these two.
+
+\subsection{System part}
+
+The system part is simply the correlation of $O$ and $A$ under the initial system distribution:
+\[
+\int d\text{sys}\; \sigma_0(\text{sys})\, O(\text{sys}) A(\text{sys}).
+\]
+
+This can be evaluated analytically or numerically depending on the system.
+
+Finally, we obtain the evaluation in the classical case
+\begin{equation}\label{eq:classical.generator.mori-product}
+  (\hat G, \hat A)
+= \ab(\int \d \text{sys} \sigma_0(\text{sys}) OA) \times
+  \ab(\expval{\prod_j Q_{m_j}}_\text{bath}) \times
+  \ab(\expval{\prod_j P_{n_k}}_\text{bath})
+\end{equation}
+with the bath averages given by the pair-sum formulas above. This is the classical analogue of Eq. (29) in the quantum paper. The absence of cross terms between $Q$ and $P$ and the simplicity of Gaussian moments make the classical evaluation significantly more straightforward.
+
+\bibliography{reference}
 
 \end{document}
