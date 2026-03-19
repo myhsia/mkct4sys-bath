@@ -44,8 +44,8 @@ def main():
     
     # t1, C1 = solver.solve_hardtruncation(tf=50, dt=0.005, kernel_domain='time', conv_domain='frequency')
     # t2, C2 = solver.solve_hardtruncation(tf=50, dt=0.005, kernel_domain='frequency', conv_domain='frequency')
-    # t3, C3 = solver.solve_pade(tf=50, dt=0.005, kernel_order=1, pade_order=(max_order//2 - 3, max_order//2 + 3) conv_domain='frequency')
-    t4, C4 = solver.solve_pade(tf=50, dt=0.002, kernel_order=1, pade_order=(max_order//2 - 3, max_order//2 + 3) conv_domain='time')
+    # t3, C3 = solver.solve_pade(tf=50, dt=0.005, kernel_order=1, pade_order=(6, 6), conv_domain='frequency')
+    t4, C4 = solver.solve_pade(tf=50, dt=0.002, kernel_order=1, pade_order=(6, 9), conv_domain='time')
     
     fig = plt.figure(dpi=300)
     gs = fig.add_gridspec(2, 1)
