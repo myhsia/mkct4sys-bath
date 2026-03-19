@@ -1,18 +1,17 @@
 import numpy as np
 
-from bath_mode import BathMode
-from bath_polynomial import BathPolynomial
-from sb_general_term import SBGeneralTerm
-from utils import tab_str
-from apply_iLv import apply_iLv, apply_QiLv
-from writer import MomentsWriter
+import os
+
+from liouvillian.bath_mode import BathMode
+from liouvillian.bath_polynomial import BathPolynomial
+from liouvillian.sb_general_term import SBGeneralTerm
+from liouvillian.utils import tab_str
+from liouvillian.apply_iLv import apply_iLv, apply_QiLv
+from liouvillian.writer import MomentsWriter
 
 import time
 from typing import List, Tuple, Callable
 from copy import deepcopy
-
-import os
-work_path = os.path.dirname(__file__) + '/'
 
 def poly_moments(
     poly_coeffs: List[complex],
@@ -27,6 +26,7 @@ def poly_moments(
     expval_func: Callable[[str], complex],
     njobs: int=-1,
     innermax: int=1,
+    path=os.path.dirname(__file__) + '/'
 ) -> None:
     """Compute the moments of polynomial bath interaction
         H = Hs + Hb + V (a_0 + a_1 x + a_2 x^2 + ... + a_n x^n)
@@ -72,8 +72,8 @@ def poly_moments(
 
     # On-the-fly writers
     # K1Writer = MomentsWriter("K1_n.dat", flag='K1n')
-    tildeOmegaWriter = MomentsWriter(work_path + "tilde_moments.dat", flag='tilde_moments')
-    OmegaWriter = MomentsWriter(work_path + "moments.dat", flag='moments')
+    tildeOmegaWriter = MomentsWriter(path + "tilde_moments.dat", flag='tilde_moments')
+    OmegaWriter = MomentsWriter(path + "moments.dat", flag='moments')
 
     print("Start Computing moments Omega_n and tilde_Omega_n")
     print()

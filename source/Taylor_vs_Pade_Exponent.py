@@ -1,5 +1,5 @@
 import os
-work_path = os.path.dirname(__file__) + '/'work_path = os.path.dirname(__file__) + '/'
+work_path = os.path.dirname(__file__) + '/'
 import math
 import numpy as np
 import matplotlib.pyplot as plt

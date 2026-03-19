@@ -7,7 +7,7 @@ work_path = os.path.dirname(__file__) + '/'
 import sys
 sys.path.append(os.path.join(os.path.dirname(__file__), "../src"))
 
-from mkct_solver import MKCT_solver
+from mkct.solver import MKCT_solver
 
 def do_fft(t, y, zero_padding=0, nblocks=20):
     dt = t[1] - t[0]

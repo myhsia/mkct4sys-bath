@@ -19,9 +19,9 @@ from typing import List, Tuple, Callable
 from copy import deepcopy
 
 sys.path.append(os.path.join(os.path.dirname(__file__), "../../../src"))
-from expval_bath_poly import expval_BathPoly
+from liouvillian.expval_bath_poly import expval_BathPoly
 # from linear_moments import linear_moments
-from poly_moments import poly_moments
+from liouvillian.poly_moments import poly_moments
 
 
 cache_dir = work_path + "cache"
@@ -110,7 +110,8 @@ def main():
         Nmax_Omega, Nmax_tilde_Omega,
         Hs, V, mu, sigma_0,
         theta, eta, expval_BathPoly_wrapper,
-        njobs=njobs, innermax=inner_max_num_threads)
+        njobs=njobs, innermax=inner_max_num_threads,
+        path=work_path)
 
 if __name__ == "__main__":
     main()
