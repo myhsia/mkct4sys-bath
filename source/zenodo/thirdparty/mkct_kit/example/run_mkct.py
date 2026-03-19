@@ -3,6 +3,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 import os
+work_path = os.path.dirname(__file__) + '/'
 import sys
 sys.path.append(os.path.join(os.path.dirname(__file__), "../src/mkct"))
 
@@ -29,14 +30,14 @@ def do_fft(t, y, zero_padding=0, nblocks=20):
 
         
 def main():
-    tx, re, im = np.loadtxt("./prop-pol-1.dat", unpack=True)
+    tx, re, im = np.loadtxt(work_path + "./prop-pol-1.dat", unpack=True)
     C_exact = re + 1j * im  
     C_exact /= C_exact[0]   
     
-    re, im = np.loadtxt("./moments.dat", unpack=True)
+    re, im = np.loadtxt(work_path + "./moments.dat", unpack=True)
     Omega_n = re + 1j * im 
     
-    re, im = np.loadtxt("./tilde_moments.dat", unpack=True)
+    re, im = np.loadtxt(work_path + "./tilde_moments.dat", unpack=True)
     tilde_Omega_n = re + 1j * im
     
     solver = MKCT_solver.init(Omega_n, tilde_Omega_n, rescale=0.01)

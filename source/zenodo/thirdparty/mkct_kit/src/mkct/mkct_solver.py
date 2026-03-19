@@ -5,12 +5,12 @@ from scipy.linalg import expm
 from scipy.sparse.linalg import expm_multiply
 import matplotlib.pyplot as plt
 
-from mkct.core import autocorr_convolution
-from mkct.core import get_Kn_initial
-from mkct.core import get_K_propagator
-from mkct.core import get_K1s
-from mkct.core import pade_approx_Knt_func
-from mkct.core import tilde_Omega_from_Omega_recursive
+from mkct_core import autocorr_convolution
+from mkct_core import get_Kn_initial
+from mkct_core import get_K_propagator
+from mkct_core import get_K1s
+from mkct_core import pade_approx_Knt_func
+from mkct_core import tilde_Omega_from_Omega_recursive
 
 from dataclasses import dataclass
 from typing import List, Tuple, Callable, Union
@@ -31,6 +31,7 @@ class MKCT_solver:
     def init(
         cls,
         Omega_n: NDArray[np.complex128],
+        tilde_Omega_n: NDArray[np.complex128],
         rescale: float=1.0,
     ) -> 'MKCT_solver':
         # compute the initial condition
