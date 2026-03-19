@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 import os
 work_path = os.path.dirname(__file__) + '/'
 import sys
-sys.path.append(os.path.join(os.path.dirname(__file__), "../src/mkct"))
+sys.path.append(os.path.join(os.path.dirname(__file__), "../src"))
 
 from mkct_solver import MKCT_solver
 
