@@ -65,7 +65,7 @@ def main():
         params = yaml.safe_load(f)
         rescale = params["scale"]
         Delta = params["Delta"]
-
+        max_order = params["Nmax_Omega"] - 2
 
     solver = MKCT_solver.init(Omega_n, tilde_Omega_n, rescale=rescale)
 

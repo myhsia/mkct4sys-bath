@@ -63,12 +63,12 @@ def main():
         params = yaml.safe_load(f)
         rescale = params["scale"]
         Delta = params["Delta"]
-
+        max_order = params["Nmax_Omega"] - 2
 
     solver = MKCT_solver.init(Omega_n, tilde_Omega_n, rescale=rescale)
 
     # t, C = solver.solve_pade(tf=200, dt=0.001, kernel_order=1, pade_order=(9, 10), conv_domain='time')
-    t, C = solver.solve_pade(tf=100, dt=0.001, kernel_order=1, pade_order=(6, 9), conv_domain='frequency')
+    t, C = solver.solve_pade(tf=100, dt=0.001, kernel_order=1, pade_order=(max_order//2 - 3, max_order//2 + 3) conv_domain='frequency')
 
     K1t = solver.K1t
 
