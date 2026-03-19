@@ -11,6 +11,8 @@ import time
 from typing import List, Tuple, Callable
 from copy import deepcopy
 
+import os
+work_path = os.path.dirname(__file__) + '/'
 
 def poly_moments(
     poly_coeffs: List[complex],
@@ -70,8 +72,8 @@ def poly_moments(
 
     # On-the-fly writers
     # K1Writer = MomentsWriter("K1_n.dat", flag='K1n')
-    tildeOmegaWriter = MomentsWriter("tilde_moments.dat", flag='tilde_moments')
-    OmegaWriter = MomentsWriter("moments.dat", flag='moments')
+    tildeOmegaWriter = MomentsWriter(work_path + "tilde_moments.dat", flag='tilde_moments')
+    OmegaWriter = MomentsWriter(work_path + "moments.dat", flag='moments')
 
     print("Start Computing moments Omega_n and tilde_Omega_n")
     print()

@@ -24,7 +24,7 @@ from expval_bath_poly import expval_BathPoly
 from poly_moments import poly_moments
 
 
-cache_dir = "cache"
+cache_dir = work_path + "cache"
 memory = Memory(location=cache_dir, verbose=0)
 memory.clear(warn=False)
 
