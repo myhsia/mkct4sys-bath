@@ -2,7 +2,11 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
-from mkct import MKCT_solver
+import os
+import sys
+sys.path.append(os.path.join(os.path.dirname(__file__), "../src/mkct"))
+
+from mkct_solver import MKCT_solver
 
 def do_fft(t, y, zero_padding=0, nblocks=20):
     dt = t[1] - t[0]
