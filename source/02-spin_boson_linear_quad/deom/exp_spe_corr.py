@@ -6,6 +6,9 @@ import sympy as sp
 import yaml
 from scipy.integrate import quad
 
+import os
+work_path = os.path.dirname(__file__) + '/'
+
 # plt.style.use(['science', 'grid'])
 
 from prony.prony import prony
