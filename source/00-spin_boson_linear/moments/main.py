@@ -10,7 +10,6 @@ from joblib import Memory
 
 
 import os
-work_path = os.path.dirname(__file__) + '/'
 import sys
 import time
 import argparse
@@ -18,18 +17,18 @@ from dataclasses import dataclass, field
 from typing import List, Tuple, Callable
 from copy import deepcopy
 
-sys.path.append(os.path.join(os.path.dirname(__file__), "../../library"))
-from liouvillian.expval_bath_poly import expval_BathPoly
+sys.path.append(os.path.join(os.path.dirname(__file__), "../../src"))
+from expval_bath_poly import expval_BathPoly
 # from linear_moments import linear_moments
-from liouvillian.poly_moments import poly_moments
+from poly_moments import poly_moments
 
 
-cache_dir = work_path + "cache"
+cache_dir = "cache"
 memory = Memory(location=cache_dir, verbose=0)
 # memory.clear(warn=False)
 
 # load the parameters
-with open(work_path + "../params.yaml", "r") as f:
+with open("../params.yaml", "r") as f:
     params = yaml.safe_load(f)
     rescale = params["scale"]
 
@@ -110,8 +109,7 @@ def main():
         Nmax_Omega, Nmax_tilde_Omega,
         Hs, V, mu, sigma_0,
         theta, eta, expval_BathPoly_wrapper,
-        njobs=njobs, innermax=inner_max_num_threads,
-        path=work_path)
+        njobs=njobs, innermax=inner_max_num_threads)
 
 if __name__ == "__main__":
     main()

@@ -1,6 +1,6 @@
 import sympy as sp
 
-from liouvillian.utils import parse_reps
+from utils import parse_reps
 
 from dataclasses import dataclass
 from typing import Callable

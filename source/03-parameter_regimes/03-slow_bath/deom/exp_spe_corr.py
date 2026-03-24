@@ -3,9 +3,8 @@ import numpy as np
 import matplotlib.pyplot as plt
 import sympy as sp
 import yaml
-
 import os
-work_path = os.path.dirname(__file__) + '/'
+
 
 from prony.prony import prony
 from prony.TimeDomainData import TimeDomainData
@@ -37,7 +36,7 @@ import json
 # Delta = 0.5
 
 # Load the parameters from the YAML file
-with open(work_path + "../params.yaml", "r") as f:
+with open("../params.yaml", "r") as f:
     params = yaml.safe_load(f)
     rescale = params["scale"]
 
@@ -214,7 +213,7 @@ def main():
     init_qmd(json_init["spectrum-data"]["dipole"], pdip, pdip, mode, 2, etaa, etal, etar)
     init_qmd(json_init["spectrum-data"]["dipole1"], pdip, pdip, mode, 2, etaa, etal, etar)
 
-    with open(work_path + "input.json", 'w') as f:
+    with open("input.json", 'w') as f:
         json.dump(json_init, f, indent=2, default=convert)
 
 

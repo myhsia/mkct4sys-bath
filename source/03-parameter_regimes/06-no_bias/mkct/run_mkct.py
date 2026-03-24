@@ -3,11 +3,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import yaml
 
-import os
-work_path = os.path.dirname(__file__) + '/'
-import sys
-sys.path.append(os.path.join(os.path.dirname(__file__), "../../../library"))
-from mkct.solver import MKCT_solver
+from mkct import MKCT_solver
 
 def do_fft(t, y, zero_padding=0, nblocks=20):
     dt = t[1] - t[0]
@@ -50,24 +46,22 @@ def save_time_cmplx(t, C, filename, identifier="") -> None:
 
 
 def main():
-    tx, re, im = np.loadtxt(work_path + "../deom/prop-pol-1.dat", unpack=True)
+    tx, re, im = np.loadtxt("../deom/prop-pol-1.dat", unpack=True)
     C_exact = re + 1j * im
     C_exact /= C_exact[0]
 
-    re, im = np.loadtxt(work_path + "../moments/moments.dat", unpack=True)
+    re, im = np.loadtxt("../moments/moments.dat", unpack=True)
     Omega_n = re + 1j * im
 
-    re, im = np.loadtxt(work_path + "../moments/tilde_moments.dat", unpack=True)
-    tilde_Omega_n = re + 1j * im
 
     # load the parameters
-    with open(work_path + "../params.yaml", "r") as f:
+    with open("../params.yaml", "r") as f:
         params = yaml.safe_load(f)
         rescale = params["scale"]
         Delta = params["Delta"]
-        max_order = params["Nmax_Omega"] - 2
 
-    solver = MKCT_solver.init(Omega_n, tilde_Omega_n, rescale=rescale)
+
+    solver = MKCT_solver.init(Omega_n, rescale=rescale)
 
     # t, C = solver.solve_pade(tf=200, dt=0.001, kernel_order=1, pade_order=(9, 10), conv_domain='time')
     t, C = solver.solve_pade(tf=50, dt=0.001, kernel_order=1, pade_order=(8,16), conv_domain='frequency')

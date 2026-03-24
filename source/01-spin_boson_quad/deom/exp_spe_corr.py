@@ -6,9 +6,6 @@ import sympy as sp
 import yaml
 from scipy.integrate import quad
 
-import os
-work_path = os.path.dirname(__file__) + '/'
-
 # plt.style.use(['science', 'grid'])
 
 from prony.prony import prony
@@ -32,7 +29,7 @@ from spin_lattice_utils.third_party.deom import decompose_spe_prony_na
 import json
 
 # Load the parameters from the YAML file
-with open(work_path + "../params.yaml", "r") as f:
+with open("../params.yaml", "r") as f:
     params = yaml.safe_load(f)
 
 rescale = params["scale"]
@@ -274,7 +271,7 @@ def main():
     init_qmd(json_init["spectrum-data"]["dipole1"], pdip, pdip, mode, 2, etaa, etal, etar)
     init_qmd_quad(json_init["spectrum-data"]["dipole1"], pdip2, pdip2, pdip2, mode, 2, len(expn), nmod, etaa, etal, etar)
 
-    with open(work_path + "input.json", 'w') as f:
+    with open("input.json", 'w') as f:
         json.dump(json_init, f, indent=2, default=convert)
 
 
