@@ -1,8 +1,9 @@
-Nmax_Omega: 22
+Pade_m: 10
+Pade_n: 14
 Nmax_tilde_Omega: 1
 Omega: 0.0
 Delta: 1.0
-beta: 1.0
+beta: 0.1
 lambd: 1.0
-scale: 0.1
-wD: 0.1
+scale: 0.01
+wD: 1.0

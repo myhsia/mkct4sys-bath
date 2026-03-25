@@ -1,4 +1,5 @@
-Nmax_Omega: 27
+Pade_m: 8
+Pade_n: 16
 Nmax_tilde_Omega: 1
 Omega: 0.0
 Delta: 1.0
