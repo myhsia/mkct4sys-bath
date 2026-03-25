@@ -3,7 +3,10 @@ import numpy as np
 import matplotlib.pyplot as plt
 import yaml
 
-from mkct import MKCT_solver
+import os
+import sys
+sys.path.append(os.path.join(os.path.dirname(__file__), "../../../library"))
+from mkct.solver import MKCT_solver
 
 def do_fft(t, y, zero_padding=0, nblocks=20):
     dt = t[1] - t[0]
@@ -59,12 +62,14 @@ def main():
         params = yaml.safe_load(f)
         rescale = params["scale"]
         Delta = params["Delta"]
+        pade_m = params["Pade_m"]
+        pade_n = params["Pade_n"]
 
 
     solver = MKCT_solver.init(Omega_n, rescale=rescale)
 
     # t, C = solver.solve_pade(tf=200, dt=0.001, kernel_order=1, pade_order=(9, 10), conv_domain='time')
-    t, C = solver.solve_pade(tf=50, dt=0.001, kernel_order=1, pade_order=(8,16), conv_domain='frequency')
+    t, C = solver.solve_pade(tf=50, dt=0.001, kernel_order=1, pade_order=(pade_m, pade_n), conv_domain='frequency')
 
     K1t = solver.K1t
 
