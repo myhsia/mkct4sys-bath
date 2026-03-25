@@ -18,9 +18,9 @@ from typing import List, Tuple, Callable
 from copy import deepcopy
 
 sys.path.append(os.path.join(os.path.dirname(__file__), "../../../src"))
-from expval_bath_poly import expval_BathPoly
+from liouvillian.expval_bath_poly import expval_BathPoly
 # from linear_moments import linear_moments
-from poly_moments import poly_moments
+from liouvillian.poly_moments import poly_moments
 
 
 cache_dir = "cache"

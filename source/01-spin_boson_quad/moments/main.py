@@ -17,10 +17,10 @@ from dataclasses import dataclass, field
 from typing import List, Tuple, Callable
 from copy import deepcopy
 
-sys.path.append(os.path.join(os.path.dirname(__file__), "../../src"))
-from expval_bath_poly import expval_BathPoly
+sys.path.append(os.path.join(os.path.dirname(__file__), "../../library"))
+from liouvillian.expval_bath_poly import expval_BathPoly
 # from linear_moments import linear_moments
-from poly_moments import poly_moments
+from liouvillian.poly_moments import poly_moments
 
 
 cache_dir = "cache"
@@ -35,7 +35,7 @@ with open("../params.yaml", "r") as f:
     rescale = params["scale"]
 
 # Define the parameters
-Nmax_Omega = params["Nmax_Omega"]
+Nmax_Omega = params["Pade_m"] + params["Pade_n"] + 2
 Nmax_tilde_Omega = params["Nmax_tilde_Omega"]
 
 beta = params["beta"]
