@@ -25,7 +25,7 @@ from liouvillian.poly_moments import poly_moments
 
 cache_dir = "cache"
 memory = Memory(location=cache_dir, verbose=0)
-# memory.clear(warn=False)
+memory.clear(warn=False)
 
 # load the parameters
 with open("../params.yaml", "r") as f:
