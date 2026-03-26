@@ -27,6 +27,8 @@ cache_dir = "cache"
 memory = Memory(location=cache_dir, verbose=0)
 memory.clear(warn=False)
 
+
+
 # load the parameters
 with open("../params.yaml", "r") as f:
     params = yaml.safe_load(f)
@@ -68,7 +70,7 @@ denominator = np.trace(mu @ mu @ sigma_0)
 
 
 def J_mp(w):
-    return 2 * lambd * w * mp.exp(-w / wD)
+    return 2.0 * lambd * w * mp.exp(-w / wD)
 
 
 @memory.cache
