@@ -11,9 +11,9 @@ The directory structure is as follows:
 ├── 01-spin_boson_quad
 ├── 02-spin_boson_linear_quad
 ├── 03-parameter_regimes
+├── 04-example_mkct_thirdparty
 ├── README.md
-├── src
-└── thirdparty
+└── src
 ```
 
 ### Source code 
