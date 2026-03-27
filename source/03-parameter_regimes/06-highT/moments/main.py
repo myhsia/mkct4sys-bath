@@ -81,8 +81,8 @@ def theta(n: int):
 
 @memory.cache
 def eta(n: int):
-    def integrand(x):
-        return 1 / mp.pi * J_mp(x/beta) * (x/beta)**n / mp.tanh(x/2) / beta
+    def integrand(w):
+        return 1 / mp.pi * J_mp(w) * w**n / mp.tanh(beta * w / 2)
 
     val_mp = mp.quad(integrand, [0, mp.inf])
     return float(val_mp)
