@@ -36,13 +36,13 @@ with open("../params.yaml", "r") as f:
 Nmax_Omega = params["Pade_m"] + params["Pade_n"] + 2
 Nmax_tilde_Omega = params["Nmax_tilde_Omega"]
 
-beta = params["beta"]
+lambd = params["lambd"]
+wD = params["wD"]
 Omega = params["Omega"]
 Delta = params["Delta"]
-lambd = params["lambd"]
+beta = params["beta"]
 theta_B = params["theta_B"]
 wB = 1.0
-wD = params["wD"]
 _eta = params["eta"]
 
 # rescale the parameters to avoid numerical issues
