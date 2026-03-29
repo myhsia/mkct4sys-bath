@@ -234,20 +234,20 @@ def tilde_Omega_from_Omega_recursive(
 
 def pade_dispacher(Kn_poly, m1, m2):
     if isinstance(Kn_poly[0], np.complex128):
-        pade_func = pade 
+        pade_func = pade
     elif isinstance(Kn_poly[0], mp.mpc):
         pade_func = mp.pade
     else:
         raise ValueError(f"Kn_poly should be either np.complex128 or mpmath.mpc. Got {Kn_poly.dtype=}")
-    
+   
     if m2 is None:
         p, q = pade_func(Kn_poly, m1)
     else:
         p, q = pade_func(Kn_poly, m1, m2)
-        
-    return p, q     
-    
-    
+       
+    return p, q    
+   
+   
 
 def pade_approx_Knt_func(
     Omega_n: NDArray[np.complex128],
@@ -255,7 +255,7 @@ def pade_approx_Knt_func(
     n: int,
     m: Union[int, Tuple[int, int]],
     return_pq: bool = False,
-    backend: str = 'scipy', 
+    backend: str = 'scipy',
 ) -> CvalFunc:
     """Use Pade approximation to compute the n-th order memory kernel.
         - n: order of the memory kernel
@@ -318,7 +318,7 @@ def pade_approx_Knt_func(
         else:
             p, q = pade(Kn_poly, m2, m1)
         # p, q = pade_dispacher(Kn_poly, m1, m2)
-    
+   
 
         if return_pq:
             return lambda t: p(t) / q(t), p, q
@@ -328,16 +328,16 @@ def pade_approx_Knt_func(
         if m2 is None:
             p, q = mp.pade(Kn_poly, m//2+1)
         else:
-            p, q = mp.pade(Kn_poly, m1, m2)        
-            
+            p, q = mp.pade(Kn_poly, m1, m2)       
+           
         if return_pq:
             return lambda t: np.array([mp.polyval(p[::-1], tt) / mp.polyval(q[::-1], tt) for tt in t], dtype=np.complex128), p, q
         else:
             return lambda t: np.array([mp.polyval(p[::-1], tt) / mp.polyval(q[::-1], tt) for tt in t], dtype=np.complex128)
-        
+       
     else:
         raise ValueError("backend should be either 'scipy' or 'mpmath'")
-            
+           
 
 # def vectorize(mp_math_func: Callable) -> Callable:
 #     """Vectorize a mpmath function to work with numpy arrays."""

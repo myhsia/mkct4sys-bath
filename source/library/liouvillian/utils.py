@@ -10,7 +10,7 @@ def parse_reps(m_list):
     return m_set, m_reps
 
 def comm(A: np.ndarray, B: np.ndarray) -> np.ndarray:
-    return np.dot(A, B) - np.dot(B, A) 
+    return np.dot(A, B) - np.dot(B, A)
 
 def tab_str(s, N=69, char='=', border='!'):
     n = len(s)

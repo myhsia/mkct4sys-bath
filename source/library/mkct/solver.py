@@ -151,7 +151,7 @@ class MKCT_solver:
                 tilde_Omega_n=self.tilde_Omega_n,
                 n=1,
                 m=pade_order,
-                backend=pade_backend,   
+                backend=pade_backend,  
             )
             t_rescaled = np.arange(0, tf+dt, dt) / self.rescale
             dt_rescaled = dt / self.rescale
@@ -168,7 +168,7 @@ class MKCT_solver:
                 return_pq=True,
                 backend=pade_backend,
             )
-            t = np.arange(0, tf*(1+redundent_ratio)+dt, dt) 
+            t = np.arange(0, tf*(1+redundent_ratio)+dt, dt)
             mask = t <= tf
             # t_rescaled = np.arange(0, tf+dt, dt) / self.rescale
             t_rescaled = t / self.rescale

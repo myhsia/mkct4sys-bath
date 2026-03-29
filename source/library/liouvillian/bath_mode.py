@@ -24,8 +24,8 @@ class BathMode:
         return f"{sig}_{self.n}"
 
 def BathModeCommute(
-    mode1: BathMode, 
-    mode2: BathMode, 
+    mode1: BathMode,
+    mode2: BathMode,
     theta_func: Callable[[int], complex]
 ) -> complex:
     if mode1.sig == mode2.sig:
