@@ -232,7 +232,7 @@ def tilde_Omega_from_Omega_recursive(
             tilde_Omega_n[m] -= tilde_Omega_n[m-k] * Omega_n[k-1]
     return tilde_Omega_n
 
-def pade_dispacher(Kn_poly, m1, m2):
+def pade_dispatcher(Kn_poly, m1, m2):
     if isinstance(Kn_poly[0], np.complex128):
         pade_func = pade
     elif isinstance(Kn_poly[0], mp.mpc):
@@ -317,7 +317,7 @@ def pade_approx_Knt_func(
             p, q = pade(Kn_poly, m//2+1)
         else:
             p, q = pade(Kn_poly, m2, m1)
-        # p, q = pade_dispacher(Kn_poly, m1, m2)
+        # p, q = pade_dispatcher(Kn_poly, m1, m2)
    
 
         if return_pq:
