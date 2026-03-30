@@ -32,10 +32,10 @@ def main():
     C_exact = re + 1j * im  
     C_exact /= C_exact[0]   
     
-    re, im = np.loadtxt("./moments.dat", unpack=True)
+    re, im = np.loadtxt("./moments_quantum.dat", unpack=True)
     Omega_n = re + 1j * im 
     
-    re, im = np.loadtxt("./tilde_moments.dat", unpack=True)
+    re, im = np.loadtxt("./tilde_moments_quantum.dat", unpack=True)
     tilde_Omega_n = re + 1j * im
     
     solver = MKCT_solver.init(Omega_n, rescale=0.01)

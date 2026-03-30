@@ -1,19 +1,19 @@
 import numpy as np
 
 class MomentsWriter:
-    def __init__(self, filename, flag='moments'):
+    def __init__(self, filename, flag='moments_quantum'):
         self.filename = filename
         self.f = open(filename, 'w')
 
         # write the header
-        if flag == 'tilde_moments':
+        if flag == 'tilde_moments_quantum':
             RE_str = "Re[tilde_Omega_n]"
             IM_str = "Im[tilde_Omega_n]"
-        elif flag == 'moments':
+        elif flag == 'moments_quantum':
             RE_str = "Re[Omega_n]"
             IM_str = "Im[Omega_n]"
         else:
-            raise ValueError(f"Invalid flag {flag}. Available flags are 'K1n' and 'moments'.")
+            raise ValueError(f"Invalid flag {flag}. Available flags are 'K1n' and 'moments_quantum'.")
 
         self.HEADER = f"# {RE_str:>18} {IM_str:>20}\n"
 

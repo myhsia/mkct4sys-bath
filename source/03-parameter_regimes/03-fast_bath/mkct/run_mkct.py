@@ -53,7 +53,7 @@ def main():
     C_exact = re + 1j * im
     C_exact /= C_exact[0]
 
-    re, im = np.loadtxt("../moments/moments.dat", unpack=True)
+    re, im = np.loadtxt("../moments/moments_quantum.dat", unpack=True)
     Omega_n = re + 1j * im
 
 

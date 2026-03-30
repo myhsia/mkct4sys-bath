@@ -28,9 +28,11 @@ def poly_moments(
 ) -> None:
     """Compute the moments of polynomial bath interaction
         H = Hs + Hb + V (a_0 + a_1 x + a_2 x^2 + ... + a_n x^n)
-    This script will return nothing but will always write the two files:
-        - moments.dat: the moments Omega_n
-        - tilde_moments.dat: the moments tilde_Omega_n
+    This script will return nothing but will always write the four files:
+        - moments_quantum.dat: the moments Omega_n in quantum case
+        - tilde_moments.dat: the moments tilde_Omega_n in quantum case
+        - moments_classical.dat: the moments Omega_n in classical case
+        - tilde_moments_classical.dat: the moments tilde_Omega_n in classical case
 
     Notice: will define Hs' = Hs + a_0 V since this term does not contribute to the bath hierarchy
 
@@ -70,8 +72,8 @@ def poly_moments(
 
     # On-the-fly writers
     # K1Writer = MomentsWriter("K1_n.dat", flag='K1n')
-    tildeOmegaWriter = MomentsWriter("tilde_moments.dat", flag='tilde_moments')
-    OmegaWriter = MomentsWriter("moments.dat", flag='moments')
+    tildeOmegaWriter = MomentsWriter("tilde_moments_quantum.dat", flag='tilde_moments_quantum')
+    OmegaWriter = MomentsWriter("moments_quantum.dat", flag='moments_quantum')
 
     print("Start Computing moments Omega_n and tilde_Omega_n")
     print()
