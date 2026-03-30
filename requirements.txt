@@ -1,0 +1,7 @@
+joblib
+matplotlib
+mpmath
+numpy
+pyyaml
+scipy
+sympy

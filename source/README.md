@@ -53,3 +53,21 @@ In each of these workspaces, the directory structure is as follows:
 ```
 
 The DEOM code we used is developed by our collaborators and is available at GitLab repository [`moscal2.0`](https://git.lug.ustc.edu.cn/czh123/moscal2.0.git).
+
+
+## Workflows for building
+
+Create env & install requirements
+
+```bash
+conda create -n mkct python=3.13.12
+conda activate mkct
+conda install --yes --file /path/to/requirements.txt
+```
+
+Install local package with specific path (if necessary)
+
+```bash
+conda install conda-build
+conda develop /path/to/folder
+```
