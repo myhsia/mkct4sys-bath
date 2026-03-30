@@ -27,5 +27,5 @@
 
 # Python aux files
 /**/__pycache__
-/**/moments/*.dat
-/**/mkct/*.dat
+# /**/moments/*.dat
+# /**/mkct/*.dat
