@@ -1,5 +1,3 @@
-import os
-work_path = os.path.dirname(__file__) + '/'
 import math
 import numpy as np
 import matplotlib.pyplot as plt
@@ -29,7 +27,7 @@ colors     = ['magenta', 'blue', 'green', 'olive', 'orange', 'red', 'purple']
 
 plt.rc('text', usetex = True)
 plt.rc('text.latex', preamble = r'\usepackage{sansmath, xfrac} \sansmath')
-with PdfPages(work_path + 'Taylor_vs_Pade_Exponent.pdf') as pdf:
+with PdfPages('./Taylor_vs_Pade_Exponent.pdf') as pdf:
   plt.figure(figsize = (9,6))
   plt.axvline(x = 0, color = 'gray', linestyle = '-.', linewidth = 4)
   for i, (m, n) in enumerate(order_list):
