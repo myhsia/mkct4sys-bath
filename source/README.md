@@ -39,6 +39,8 @@ Here, the raw data files to create the figures in the paper are located:
 - `01-spin_boson_quad`: Spin-boson model with quadratic coupling. Corresponds to FIGs. 4 and 6 in the paper.
 - `02-spin_boson_linear_quad`: Spin-boson model with both linear and quadratic couplings. Corresponds to FIG. 5 and 6 in the paper.
 - `03-parameter_regimes`: Spin-boson model with linear coupling in different parameter regimes. Corresponds to FIGs. 7, 8, and 9 in the paper.
+- `04-example_mkct_thirdparty`: Third-party libraries.
+The paper uses MKCT to post-process the moments computed by the code. A helper repository is written by the authors and is avialable on [GitHub](`https://github.com/ruihao99/mkct_kit`).
 
 In each of these workspaces, the directory structure is as follows:
 
@@ -50,10 +52,4 @@ In each of these workspaces, the directory structure is as follows:
 └── params.yaml # Parameters for the spin-boson model
 ```
 
-### Third-party libraries
-The paper uses MKCT to post-process the moments computed by the code. A helper repository is written by the authors and is avialable at `thirdparty/mkct`.
-
 The DEOM code we used is developed by our collaborators and is available at GitLab repository [`moscal2.0`](https://git.lug.ustc.edu.cn/czh123/moscal2.0.git).
-
-
-
