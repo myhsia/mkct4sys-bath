@@ -26,9 +26,10 @@ class BathMode:
 def BathModeCommute(
     mode1: BathMode,
     mode2: BathMode,
-    theta_func: Callable[[int], complex]
+    theta_func: Callable[[int], complex],
+    quantum: bool = True
 ) -> complex:
-    if mode1.sig == mode2.sig:
+    if mode1.sig == mode2.sig or not quantum:
         return 0.0
     else:
         # \sum_j \sum_k g_j g_k \omega_j^n \omega_k^m [z_j, z_k]
