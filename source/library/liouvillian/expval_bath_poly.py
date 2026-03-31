@@ -7,7 +7,12 @@ from typing import Callable
 
 type_i2c = Callable[[int], complex]
 
-def expval_BathPoly(bp_str: str, theta: type_i2c, eta: type_i2c) -> complex:
+def expval_BathPoly(
+    bp_str: str,
+    theta: type_i2c,
+    eta: type_i2c,
+    quantum: bool = True
+) -> complex:
     # get the string representation of the bath polynomial
     modes = bp_str.split()
     m_list = []
@@ -64,16 +69,16 @@ def expval_BathPoly(bp_str: str, theta: type_i2c, eta: type_i2c) -> complex:
                 else:
                     eta_ij = eta_dict[order]
                 expo += lpi * lpj * eta_ij / 2
-
-        for i, (li, mi) in enumerate(zip(l_list, m_list)):
-            for j, (lpj, nj) in enumerate(zip(lp_list, n_list)):
-                order = mi + nj
-                if order not in theta_dict.keys():
-                    theta_ij = sp.symbols(f'theta{order}', real=True)
-                    theta_dict[order] = theta_ij
-                else:
-                    theta_ij = theta_dict[order]
-                expo += li * lpj * theta_ij * sp.I / 2
+        if quantum:
+            for i, (li, mi) in enumerate(zip(l_list, m_list)):
+                for j, (lpj, nj) in enumerate(zip(lp_list, n_list)):
+                    order = mi + nj
+                    if order not in theta_dict.keys():
+                        theta_ij = sp.symbols(f'theta{order}', real=True)
+                        theta_dict[order] = theta_ij
+                    else:
+                        theta_ij = theta_dict[order]
+                    expo += li * lpj * theta_ij * sp.I / 2
         expr = sp.exp(expo)
 
         # compute the derivative sequence
