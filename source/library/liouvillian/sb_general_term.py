@@ -82,7 +82,7 @@ class SBGeneralTerm:
 
         new_general_list = []
         if quantum:
-        # first term
+            # Term 1
             _new_op1 = 1.j * np.dot(V, self.op)
             new_bathpoly1_list = []
             for poly in poly_interactions:
@@ -95,7 +95,7 @@ class SBGeneralTerm:
                 new_general_list.append(SBGeneralTerm(op=new_op1, bathpoly=poly))
 
 
-            # second term
+            # Term 2
             # new_bathpoly2_list = self.bathpoly.apply_comm_rho0(theta_func)
             _new_op2 = -1.j * np.dot(self.op, V)
             new_bathpoly2_list = []
