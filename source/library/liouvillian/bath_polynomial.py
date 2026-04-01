@@ -70,12 +70,13 @@ class BathPolynomial:
     def move_momentum_right(
         pi: BathMode,
         pos_modes: List[BathMode],
-        theta_func: Callable[[int], complex]
+        theta_func: Callable[[int], complex],
+        quantum: bool = True
     ) -> Tuple[List[complex], List[List[BathMode]]]:
         # first compute the commutator of pi with all the position operators
         coeff_list = []
         for rho in pos_modes:
-            comm = BathModeCommute(pi, rho, theta_func)
+            comm = BathModeCommute(pi, rho, theta_func, quantum = quantum)
             coeff_list.append(comm)
 
         # construct the new mode list
@@ -89,12 +90,13 @@ class BathPolynomial:
     def move_position_left(
         rho: BathMode,
         mom_modes: List[BathMode],
-        theta_func: Callable[[int], complex]
+        theta_func: Callable[[int], complex],
+        quantum: bool = True
     ) -> Tuple[List[complex], List[List[BathMode]]]:
         # first compute the commutator of rho with all the momentum operators
         comm_list = []
         for pi in mom_modes:
-            comm = BathModeCommute(pi, rho, theta_func)
+            comm = BathModeCommute(pi, rho, theta_func, quantum = quantum)
             comm_list.append(comm)
 
         # construct the new mode list
@@ -108,7 +110,8 @@ class BathPolynomial:
     def left_multiply_poly(
         self,
         other: 'BathPolynomial',
-        theta_func: Callable[[int], complex]
+        theta_func: Callable[[int], complex],
+        quantum: bool = True
     ) -> List['BathPolynomial']:
         other_pos_modes = other.pos_modes
         other_mom_modes = other.mom_modes
@@ -123,7 +126,8 @@ class BathPolynomial:
         for mode in reversed(other_mom_modes):
             new_poly_list_new = []
             for poly in new_poly_list:
-                new_poly_list_new += poly.left_multiply_mode(mode, theta_func)
+                new_poly_list_new += poly.left_multiply_mode(
+                    mode, theta_func, quantum = quantum)
             new_poly_list = new_poly_list_new
 
         # For each position operator in the other polynomial
@@ -138,7 +142,8 @@ class BathPolynomial:
     def left_multiply_mode(
         self,
         mode: BathMode,
-        theta_func: Callable[[int], complex]
+        theta_func: Callable[[int], complex],
+        quantum: bool = True
     ) -> List['BathPolynomial']:
         if (mode.sig == 1):
             # if the signature is 1 (position), then simply
@@ -159,7 +164,7 @@ class BathPolynomial:
             else:
                 # get the coeffs and the new mode list
                 coeff_list, modes_list = self.move_momentum_right(
-                    mode, self.pos_modes, theta_func)
+                    mode, self.pos_modes, theta_func, quantum = quantum)
                 n_terms = len(coeff_list)
 
                 new_poly_list = []
@@ -181,7 +186,8 @@ class BathPolynomial:
     def right_multiply_poly(
         self,
         other: 'BathPolynomial',
-        theta_func: Callable[[int], complex]
+        theta_func: Callable[[int], complex],
+        quantum: bool = True
     ) -> List['BathPolynomial']:
         # For each momentum operator in the other polynomial
         # just append the momentum operator to the current polynomial
@@ -197,7 +203,8 @@ class BathPolynomial:
         for mode in other.pos_modes:
             new_poly_list_new = []
             for poly in new_poly_list:
-                new_poly_list_new += poly.right_multiply_mode(mode, theta_func)
+                new_poly_list_new += poly.right_multiply_mode(
+                    mode, theta_func, quantum = quantum)
             new_poly_list = new_poly_list_new
 
         # For each momentum operator in the other polynomial
@@ -212,7 +219,8 @@ class BathPolynomial:
     def right_multiply_mode(
         self,
         mode: BathMode,
-        theta_func: Callable[[int], complex]
+        theta_func: Callable[[int], complex],
+        quantum: bool = True
     ) -> List['BathPolynomial']:
         if mode.sig == -1:
             # if the signature is -1 (momentum), then simply
@@ -233,7 +241,7 @@ class BathPolynomial:
             else:
                 # get the coeffs and the new mode list
                 coeff_list, modes_list = self.move_position_left(
-                    mode, self.mom_modes, theta_func)
+                    mode, self.mom_modes, theta_func, quantum = quantum)
                 n_terms = len(coeff_list)
 
                 new_poly_list = []
@@ -254,7 +262,8 @@ class BathPolynomial:
 
     def apply_iLB(
         self,
-        theta_func: Callable[[int], complex]
+        theta_func: Callable[[int], complex],
+        quantum: bool = True,
     ) -> List['BathPolynomial']:
         # apply the iLB superoperator to the current polynomial
         # iLB = 1/2 \sum_j [p_j^2, BathPolynomial] + [w_j^2 q_j^2, BathPolynomial]
@@ -281,7 +290,10 @@ class BathPolynomial:
 
                 # move the new momentum mode to the right of pos_modes_after
                 coeff_list, mode_list = self.move_momentum_right(
-                    new_mom_mode, pos_modes_after, theta_func)
+                    new_mom_mode,
+                    pos_modes_after,
+                    theta_func,
+                    quantum = quantum)
                 for i in range(len(coeff_list)):
                     coeff_i = self.coeff * coeff * coeff_list[i]
                     pos_modes_i = pos_modes_before + mode_list[i]
@@ -312,7 +324,10 @@ class BathPolynomial:
 
                 # move the new position mode to the left of mom_modes_before
                 coeff_list, mode_list = self.move_position_left(
-                    new_pos_mode, mom_modes_before, theta_func)
+                    new_pos_mode,
+                    mom_modes_before,
+                    theta_func,
+                    quantum = quantum)
                 for i in range(len(coeff_list)):
                     coeff_i = self.coeff * coeff * coeff_list[i]
                     mom_modes_i = mode_list[i] + mom_modes_after
@@ -338,7 +353,8 @@ class BathPolynomial:
 
     def apply_comm_rho0(
         self,
-        theta_func: Callable[[int], complex]
+        theta_func: Callable[[int], complex],
+        quantum: bool = True
     ) -> List['BathPolynomial']:
         # apply the commutator with the rho_0 operator
         # [rho_0, BathPolynomial]
@@ -355,7 +371,7 @@ class BathPolynomial:
         rho0 = BathMode(sig=1, n=0)
         for ii, pi in enumerate(mom_modes):
             # compute the commutator
-            comm = BathModeCommute(rho0, pi, theta_func)
+            comm = BathModeCommute(rho0, pi, theta_func, quantum = quantum)
             # comm = BathModeCommute(pi, rho0)
             new_mom_list = mom_modes[:ii] + mom_modes[ii+1:]
             new_poly = BathPolynomial(

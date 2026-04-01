@@ -18,13 +18,15 @@ def apply_iLv(
     poly_coeffs: List[complex] = None,
     njobs: int = -1,
     innermax: int = 1,
+    quantum: bool = True
 ) -> List[SBGeneralTerm]:
 
     if poly_coeffs is None:
         poly_coeffs = [1.0, 0.0]  # meaning H_SB = V q
 
     def single_term_iLv(term: SBGeneralTerm) -> List[SBGeneralTerm]:
-        return term.apply_iLv(poly_coeffs, Hs, V, mu, theta_func)
+        return term.apply_iLv(
+            poly_coeffs, Hs, V, mu, theta_func, quantum = quantum)
 
     def single_term_proj(term: SBGeneralTerm) -> complex:
         return term.project_to_mu(mu, sigma_0, expval_func)
@@ -60,6 +62,7 @@ def apply_QiLv(
     poly_coeffs: List[complex] = None,
     njobs: int = -1,
     innermax: int = 1,
+    quantum: bool = True
 ) -> List[SBGeneralTerm]:
     p_term = SBGeneralTerm(op=-mu*tilde_Omega, bathpoly=BathPolynomial())
     QiLv_QiLv_n_mu = SBGeneralTerm.combine_pure_system(iLv_QiLv_nth_mu, p_term)
@@ -67,4 +70,4 @@ def apply_QiLv(
                      Hs, V, mu, sigma_0,
                      theta_func, eta_func, expval_func,
                      poly_coeffs=poly_coeffs,
-                     njobs=njobs, innermax=innermax)
+                     njobs=njobs, innermax=innermax, quantum = quantum)

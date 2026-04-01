@@ -43,9 +43,11 @@ class SBGeneralTerm:
 
     def apply_iLB(
         self,
-        theta_func: Callable[[int], complex]
+        theta_func: Callable[[int], complex],
+        quantum: bool = True
     ) -> List['SBGeneralTerm']:
-        new_bathpoly_list = self.bathpoly.apply_iLB(theta_func)
+        new_bathpoly_list = self.bathpoly.apply_iLB(
+            theta_func, quantum = quantum)
         new_general_list = []
         for poly in new_bathpoly_list:
             coeff = poly.coeff
@@ -84,7 +86,7 @@ class SBGeneralTerm:
             new_bathpoly1_list = []
             for poly in poly_interactions:
                 new_bathpoly1_list += self.bathpoly.left_multiply_poly(
-                    poly, theta_func)
+                    poly, theta_func, quantum = quantum)
 
             for poly in new_bathpoly1_list:
                 new_op1 = _new_op1 * poly.coeff
@@ -98,7 +100,7 @@ class SBGeneralTerm:
             new_bathpoly2_list = []
             for poly in poly_interactions:
                 new_bathpoly2_list += self.bathpoly.right_multiply_poly(
-                    poly, theta_func)
+                    poly, theta_func, quantum = quantum)
 
             for poly in new_bathpoly2_list:
                 new_op2 = _new_op2 * poly.coeff
@@ -194,10 +196,11 @@ class SBGeneralTerm:
         Hs: np.ndarray,
         V: np.ndarray,
         mu: np.ndarray,
-        theta_func: Callable[[int], complex]
+        theta_func: Callable[[int], complex],
+        quantum: bool = True
     ) -> List['SBGeneralTerm']:
         terms = []
         terms += self.apply_iLS(Hs)
-        terms += self.apply_iLB(theta_func)
-        terms += self.apply_iLSB(poly_coeffs, V, theta_func)
+        terms += self.apply_iLB(theta_func, quantum = quantum)
+        terms += self.apply_iLSB(poly_coeffs, V, theta_func, quantum = quantum)
         return terms

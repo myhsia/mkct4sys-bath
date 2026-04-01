@@ -23,6 +23,7 @@ def poly_moments(
     expval_func: Callable[[str], complex],
     njobs: int = -1,
     innermax: int = 1,
+    quantum: bool = True
 ) -> None:
     """Compute the moments of polynomial bath interaction
         H = Hs + Hb + V (a_0 + a_1 x + a_2 x^2 + ... + a_n x^n)
@@ -66,13 +67,21 @@ def poly_moments(
         Hsp, V, mu, sigma_0,
         theta_func, eta_func, expval_func,
         poly_coeffs,
-        njobs, innermax)  # iLv (QiLv)^n mu, n = 0 at this point
+        njobs, innermax,
+        quantum = quantum)  # iLv (QiLv)^n mu, n = 0 at this point
 
     # On-the-fly writers
     # K1Writer = MomentsWriter("K1_n.dat", flag='K1n')
-    tildeOmegaWriter = MomentsWriter(
-        "tilde_moments_quantum.dat", flag='tilde_moments_quantum')
-    OmegaWriter = MomentsWriter("moments_quantum.dat", flag='moments_quantum')
+    if quantum:
+        tildeOmegaWriter = MomentsWriter(
+            "tilde_moments_quantum.dat", flag='tilde_moments_quantum')
+        OmegaWriter = MomentsWriter(
+            "moments_quantum.dat", flag='moments_quantum')
+    else:
+        tildeOmegaWriter = MomentsWriter(
+            "tilde_moments_classical.dat", flag='tilde_moments_classical')
+        OmegaWriter = MomentsWriter(
+            "moments_classical.dat", flag='moments_classical')
 
     print("Start Computing moments Omega_n and tilde_Omega_n")
     print()
@@ -88,7 +97,8 @@ def poly_moments(
                 Hsp, V, mu, sigma_0,
                 theta_func, eta_func, expval_func,
                 poly_coeffs,
-                njobs, innermax)
+                njobs, innermax,
+                quantum = quantum)
             time_comm_and_project_Omega = time.perf_counter() - start
             OmegaWriter.write_line(Omega_n)
 
@@ -112,7 +122,7 @@ def poly_moments(
                 Hsp, V, mu, sigma_0,
                 theta_func, eta_func, expval_func,
                 poly_coeffs,
-                njobs, innermax)
+                njobs, innermax, quantum = quantum)
             time_comm_and_proj_K1 = time.perf_counter() - start
             tildeOmegaWriter.write_line(tilde_Omega_n)
             sheader = f"[tilde_Omega_{order:02d}]: "
