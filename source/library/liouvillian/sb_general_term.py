@@ -2,7 +2,6 @@ import numpy as np
 from liouvillian.bath_mode import BathMode
 from liouvillian.bath_polynomial import BathPolynomial
 from liouvillian.utils import comm
-
 from dataclasses import dataclass
 from typing import List, Callable
 from copy import deepcopy
