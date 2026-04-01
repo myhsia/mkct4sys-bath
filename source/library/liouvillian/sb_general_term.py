@@ -59,7 +59,8 @@ class SBGeneralTerm:
         self,
         poly_coeffs: List[complex],
         V: np.ndarray,
-        theta_func: Callable[[int], complex]
+        theta_func: Callable[[int], complex],
+        quantum: bool = True
     ) -> List['SBGeneralTerm']:
         # apply the iLSB superoperator to the current term
         # iLSB G
