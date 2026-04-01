@@ -23,8 +23,8 @@ def poly_moments(
     theta_func: Callable[[int], complex],
     eta_func: Callable[[int], complex],
     expval_func: Callable[[str], complex],
-    njobs: int=-1,
-    innermax: int=1,
+    njobs: int = -1,
+    innermax: int = 1,
 ) -> None:
     """Compute the moments of polynomial bath interaction
         H = Hs + Hb + V (a_0 + a_1 x + a_2 x^2 + ... + a_n x^n)
@@ -72,7 +72,8 @@ def poly_moments(
 
     # On-the-fly writers
     # K1Writer = MomentsWriter("K1_n.dat", flag='K1n')
-    tildeOmegaWriter = MomentsWriter("tilde_moments_quantum.dat", flag='tilde_moments_quantum')
+    tildeOmegaWriter = MomentsWriter(
+        "tilde_moments_quantum.dat", flag='tilde_moments_quantum')
     OmegaWriter = MomentsWriter("moments_quantum.dat", flag='moments_quantum')
 
     print("Start Computing moments Omega_n and tilde_Omega_n")
@@ -131,5 +132,3 @@ def poly_moments(
     # Total time for the program
     total_time = time.perf_counter() - start_prog
     print(f"Total time elapsed: {total_time:.2f} seconds")
-
-

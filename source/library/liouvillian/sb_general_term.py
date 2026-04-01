@@ -78,8 +78,6 @@ class SBGeneralTerm:
                 poly = BathPolynomial(coeff=a, pos_modes=modes, mom_modes=[])
                 poly_interactions.append(poly)
 
-
-
         new_general_list = []
         if quantum:
             # Term 1
@@ -92,8 +90,8 @@ class SBGeneralTerm:
             for poly in new_bathpoly1_list:
                 new_op1 = _new_op1 * poly.coeff
                 poly.coeff = 1.0
-                new_general_list.append(SBGeneralTerm(op=new_op1, bathpoly=poly))
-
+                new_general_list.append(
+                    SBGeneralTerm(op=new_op1, bathpoly=poly))
 
             # Term 2
             # new_bathpoly2_list = self.bathpoly.apply_comm_rho0(theta_func)
@@ -106,7 +104,8 @@ class SBGeneralTerm:
             for poly in new_bathpoly2_list:
                 new_op2 = _new_op2 * poly.coeff
                 poly.coeff = 1.0
-                new_general_list.append(SBGeneralTerm(op=new_op2, bathpoly=poly))
+                new_general_list.append(
+                    SBGeneralTerm(op=new_op2, bathpoly=poly))
 
         else:
             # --- Term 1: 1.j * [V, op] * U(q) * bathpoly ---
@@ -119,7 +118,8 @@ class SBGeneralTerm:
 
                 new_op1 = _new_op1 * new_poly.coeff
                 new_poly.coeff = 1.0
-                new_general_list.append(SBGeneralTerm(op=new_op1, bathpoly=new_poly))
+                new_general_list.append(SBGeneralTerm(
+                    op=new_op1, bathpoly=new_poly))
 
             # --- Term 2: - (op @ V) * U'(q) * \sum_k \mu_{n_k} P_{n_k...} ---
             # Notice no 1.j here. The Poisson bracket naturally spits out the classical real term.
@@ -144,10 +144,10 @@ class SBGeneralTerm:
 
                         new_op2 = _new_op2 * new_poly.coeff
                         new_poly.coeff = 1.0
-                        new_general_list.append(SBGeneralTerm(op=new_op2,   bathpoly=new_poly))
+                        new_general_list.append(SBGeneralTerm(
+                            op=new_op2, bathpoly=new_poly))
 
         return self.combine(new_general_list)
-
 
     @staticmethod
     def combine(term_list: List['SBGeneralTerm']) -> List['SBGeneralTerm']:

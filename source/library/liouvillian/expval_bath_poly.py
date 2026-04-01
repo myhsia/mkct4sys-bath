@@ -7,6 +7,7 @@ from typing import Callable
 
 type_i2c = Callable[[int], complex]
 
+
 def expval_BathPoly(
     bp_str: str,
     theta: type_i2c,
@@ -31,7 +32,6 @@ def expval_BathPoly(
     m_list, m_reps = parse_reps(m_list)
     n_list, n_reps = parse_reps(n_list)
 
-
     # get the number of position and momentum operators
     n = sum(m_reps) + sum(n_reps)
 
@@ -44,7 +44,6 @@ def expval_BathPoly(
         # generate the symbols for the generating function
         l_list = [sp.symbols(f'l_{i}') for i in range(len(m_list))]   # lambda list
         lp_list = [sp.symbols(f'lp_{i}') for i in range(len(n_list))] # lambda prime list
-
 
         # compute the expression for the generating function
         expo = 0

@@ -1,5 +1,6 @@
 import numpy as np
 
+
 class MomentsWriter:
     def __init__(self, filename, flag='moments_quantum'):
         self.filename = filename

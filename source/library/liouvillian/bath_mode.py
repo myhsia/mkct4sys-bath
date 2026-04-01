@@ -23,6 +23,7 @@ class BathMode:
             sig = "π"
         return f"{sig}_{self.n}"
 
+
 def BathModeCommute(
     mode1: BathMode,
     mode2: BathMode,
@@ -36,6 +37,7 @@ def BathModeCommute(
         sign = 1.j if mode1.sig == 1 else -1.j
         n = mode1.n + mode2.n
         return sign * theta_func(n)
+
 
 def apply_iLB(mode: BathMode) -> Tuple[int, BathMode]:
     # apply i [H_B, BathMode(sig, n)]

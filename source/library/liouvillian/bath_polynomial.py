@@ -6,6 +6,7 @@ from typing import List, Tuple, Callable
 from copy import deepcopy
 from dataclasses import dataclass, field
 
+
 @dataclass
 class BathPolynomial:
     """Single term of a general bath polynomial
@@ -136,7 +137,6 @@ class BathPolynomial:
 
         return self.combine(new_poly_list)
 
-
     def left_multiply_mode(
         self,
         mode: BathMode,
@@ -211,7 +211,6 @@ class BathPolynomial:
 
         return self.combine(new_poly_list)
 
-
     def right_multiply_mode(
         self,
         mode: BathMode,
@@ -235,7 +234,8 @@ class BathPolynomial:
                 return [new_poly]
             else:
                 # get the coeffs and the new mode list
-                coeff_list, modes_list = self.move_position_left(mode, self.mom_modes, theta_func)
+                coeff_list, modes_list = self.move_position_left(
+                    mode, self.mom_modes, theta_func)
                 n_terms = len(coeff_list)
 
                 new_poly_list = []
@@ -253,7 +253,6 @@ class BathPolynomial:
                 new_poly_list.append(new_poly)
 
                 return self.combine(new_poly_list)
-
 
     def apply_iLB(
         self,
@@ -386,4 +385,3 @@ class BathPolynomial:
 
             assert self.coeff == 1.0, "The coefficient should be 1.0 at the expval stage"
             return expval_func(modes)
-
