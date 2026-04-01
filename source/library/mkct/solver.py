@@ -151,7 +151,7 @@ class MKCT_solver:
                 tilde_Omega_n=self.tilde_Omega_n,
                 n=1,
                 m=pade_order,
-                backend=pade_backend,  
+                backend=pade_backend,
             )
             t_rescaled = np.arange(0, tf+dt, dt) / self.rescale
             dt_rescaled = dt / self.rescale

@@ -35,15 +35,15 @@ def save_time_cmplx(t, C, filename, identifier="") -> None:
         header_list = ['t', 're', 'im']
     else:
         header_list = ['t', f'Re[{identifier}]', f'Im[{identifier}]']
-   
+
     # header string
     header = f"{header_list[0]:>13}"
     for i in range(1, len(header_list)):
         header += f"{header_list[i]:>15}"
-   
+
     np.savetxt(filename, datout, fmt=fmt, header=header)
-    
-   
+
+
 
 
 def main():
@@ -117,15 +117,15 @@ def main():
     ax.set_ylabel(r"$I(\omega)$ (arb. units)")
     ax.legend()
     plt.show()
-   
+
     # Save the results for final production plots
     K1t_original_scale = K1t / rescale**2
-   
+
     save_time_cmplx(t, K1t_original_scale, "K1t.dat", identifier="K1(t)")
     save_time_cmplx(t, C, "C.dat", identifier="C(t)")
-   
-   
-   
+
+
+
 
 if __name__ == "__main__":
     main()

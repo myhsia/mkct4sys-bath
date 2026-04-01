@@ -105,19 +105,19 @@ class BathPolynomial:
             mode_list.append(new_mom_modes)
 
         return comm_list, mode_list
-   
+
     def left_multiply_poly(
         self,
-        other: 'BathPolynomial',   
+        other: 'BathPolynomial',
         theta_func: Callable[[int], complex]
     ) -> List['BathPolynomial']:
         other_pos_modes = other.pos_modes
         other_mom_modes = other.mom_modes
         other_coeff = other.coeff
-       
+
         # new_poly = deepcopy(self)
         tmp = deepcopy(self)
-       
+
         # For the momentum operators in the other polynomial
         # recursively apply the left_multiply_mode function
         new_poly_list = [tmp]
@@ -125,18 +125,18 @@ class BathPolynomial:
             new_poly_list_new = []
             for poly in new_poly_list:
                 new_poly_list_new += poly.left_multiply_mode(mode, theta_func)
-            new_poly_list = new_poly_list_new  
-           
+            new_poly_list = new_poly_list_new
+
         # For each position operator in the other polynomial
         # just append the position operator to the current polynomial
         for poly in new_poly_list:
             poly.pos_modes += other_pos_modes
             poly.sort_pos()
             poly.coeff *= other_coeff
-           
-        return self.combine(new_poly_list) 
-           
-           
+
+        return self.combine(new_poly_list)
+
+
     def left_multiply_mode(
         self,
         mode: BathMode,
@@ -179,8 +179,8 @@ class BathPolynomial:
                 new_poly_list.append(new_poly)
 
                 return self.combine(new_poly_list)
-           
-    def right_multiply_poly(   
+
+    def right_multiply_poly(
         self,
         other: 'BathPolynomial',
         theta_func: Callable[[int], complex]
@@ -188,11 +188,11 @@ class BathPolynomial:
         # For each momentum operator in the other polynomial
         # just append the momentum operator to the current polynomial
         tmp = deepcopy(self)
-       
+
         # new_poly = deepcopy(self)
         # new_poly.mom_modes += other.mom_modes
         # new_poly.sort_mom()
-       
+
         # For the position operators in the other polynomial
         # recursively apply the right_multiply_mode function
         new_poly_list = [tmp]
@@ -201,15 +201,15 @@ class BathPolynomial:
             for poly in new_poly_list:
                 new_poly_list_new += poly.right_multiply_mode(mode, theta_func)
             new_poly_list = new_poly_list_new
-           
+
         # For each momentum operator in the other polynomial
         # just append the momentum operator to the current polynomial
         for poly in new_poly_list:
             poly.mom_modes += other.mom_modes
             poly.sort_mom()
             poly.coeff *= other.coeff
-           
-        return self.combine(new_poly_list) 
+
+        return self.combine(new_poly_list)
 
 
     def right_multiply_mode(
@@ -276,12 +276,12 @@ class BathPolynomial:
             coeff, new_mode = apply_iLB(mode)
             if tp == 0:
                 # The new mode is a momentum operator
-                # For normal ordering, we need to move the new momentum operator to the left   
+                # For normal ordering, we need to move the new momentum operator to the left
                 new_mom_mode = new_mode
                 pos_modes_before = modes_before
                 n_pos_after = n_pos - len(pos_modes_before) - 1
                 pos_modes_after = modes_after[:n_pos_after]
-               
+
                 # move the new momentum mode to the right of pos_modes_after
                 coeff_list, mode_list = self.move_momentum_right(
                     new_mom_mode, pos_modes_after, theta_func)
@@ -294,7 +294,7 @@ class BathPolynomial:
                         mom_modes=deepcopy(mom_modes)
                     )
                     new_poly_list.append(new_poly)
-                   
+
                 coeff_last = self.coeff * coeff
                 pos_modes_last = pos_modes_before + pos_modes_after
                 mom_modes_last = deepcopy(mom_modes)
@@ -305,14 +305,14 @@ class BathPolynomial:
                     mom_modes=mom_modes_last
                 )
                 new_poly_list.append(new_poly)
-               
+
             elif tp == 1:
                 # The new mode is a position operator
                 # For normal ordering, we need to move the new position operator to the right
                 new_pos_mode = new_mode
                 mom_modes_after = modes_after
                 mom_modes_before = modes_before[n_pos:]
-               
+
                 # move the new position mode to the left of mom_modes_before
                 coeff_list, mode_list = self.move_position_left(
                     new_pos_mode, mom_modes_before, theta_func)
@@ -325,7 +325,7 @@ class BathPolynomial:
                         mom_modes=mom_modes_i
                     )
                     new_poly_list.append(new_poly)
-                   
+
                 coeff_last = self.coeff * coeff
                 mom_modes_last = mom_modes_before + mom_modes_after
                 pos_modes_last = deepcopy(pos_modes)
@@ -335,8 +335,8 @@ class BathPolynomial:
                     pos_modes=pos_modes_last,
                     mom_modes=mom_modes_last
                 )
-                new_poly_list.append(new_poly) 
-       
+                new_poly_list.append(new_poly)
+
         return self.combine(new_poly_list)
 
     def apply_comm_rho0(
