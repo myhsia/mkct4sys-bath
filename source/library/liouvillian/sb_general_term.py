@@ -68,43 +68,83 @@ class SBGeneralTerm:
         # = 1.j * [V, op] \otimes (a_1 x + a_2 x^2 + ... + a_n x^n) bathpoly + 1.j * op V \otimes [a_1 x + a_2 x^2 + ... + a_n x^n, bathpoly]
         # = 1.j * [V op - op V + op V] \otimes (a_1 x + a_2 x^2 + ... + a_n x^n) bathpoly - 1.j * op V \otimes bathpoly * (a_1 x + a_2 x^2 + ... + a_n x^n)
         a_n = poly_coeffs[:-1]
-        order_list = reversed(range(1, len(a_n) + 1))
-        poly_interactions = []
-        for a, n in zip(a_n, order_list):
-            # if np.allclose(a, 0.0, atol=1e-10):
-            #     continue
-            modes = [BathMode(1, 0) for _ in range(n)]
-            poly = BathPolynomial(coeff=a, pos_modes=modes, mom_modes=[])
-            poly_interactions.append(poly)
+        order_list = list(reversed(range(1, len(a_n) + 1)))
+        if quantum:
+            poly_interactions = []
+            for a, n in zip(a_n, order_list):
+                # if np.allclose(a, 0.0, atol=1e-10):
+                #     continue
+                modes = [BathMode(1, 0) for _ in range(n)]
+                poly = BathPolynomial(coeff=a, pos_modes=modes, mom_modes=[])
+                poly_interactions.append(poly)
 
 
 
         new_general_list = []
+        if quantum:
         # first term
-        _new_op1 = 1.j * np.dot(V, self.op)
-        new_bathpoly1_list = []
-        for poly in poly_interactions:
-            new_bathpoly1_list += self.bathpoly.left_multiply_poly(
-                poly, theta_func)
+            _new_op1 = 1.j * np.dot(V, self.op)
+            new_bathpoly1_list = []
+            for poly in poly_interactions:
+                new_bathpoly1_list += self.bathpoly.left_multiply_poly(
+                    poly, theta_func)
 
-        for poly in new_bathpoly1_list:
-            new_op1 = _new_op1 * poly.coeff
-            poly.coeff = 1.0
-            new_general_list.append(SBGeneralTerm(op=new_op1, bathpoly=poly))
+            for poly in new_bathpoly1_list:
+                new_op1 = _new_op1 * poly.coeff
+                poly.coeff = 1.0
+                new_general_list.append(SBGeneralTerm(op=new_op1, bathpoly=poly))
 
 
-        # second term
-        # new_bathpoly2_list = self.bathpoly.apply_comm_rho0(theta_func)
-        _new_op2 = -1.j * np.dot(self.op, V)
-        new_bathpoly2_list = []
-        for poly in poly_interactions:
-            new_bathpoly2_list += self.bathpoly.right_multiply_poly(
-                poly, theta_func)
+            # second term
+            # new_bathpoly2_list = self.bathpoly.apply_comm_rho0(theta_func)
+            _new_op2 = -1.j * np.dot(self.op, V)
+            new_bathpoly2_list = []
+            for poly in poly_interactions:
+                new_bathpoly2_list += self.bathpoly.right_multiply_poly(
+                    poly, theta_func)
 
-        for poly in new_bathpoly2_list:
-            new_op2 = _new_op2 * poly.coeff
-            poly.coeff = 1.0
-            new_general_list.append(SBGeneralTerm(op=new_op2, bathpoly=poly))
+            for poly in new_bathpoly2_list:
+                new_op2 = _new_op2 * poly.coeff
+                poly.coeff = 1.0
+                new_general_list.append(SBGeneralTerm(op=new_op2, bathpoly=poly))
+
+        else:
+            # --- Term 1: 1.j * [V, op] * U(q) * bathpoly ---
+            _new_op1 = 1.j * comm(V, self.op)
+            for a, n in zip(a_n, order_list):
+                new_poly = deepcopy(self.bathpoly)
+                new_poly.coeff *= a
+                new_poly.pos_modes += [BathMode(1, 0) for _ in range(n)]
+                new_poly.sort_pos()
+
+                new_op1 = _new_op1 * new_poly.coeff
+                new_poly.coeff = 1.0
+                new_general_list.append(SBGeneralTerm(op=new_op1, bathpoly=new_poly))
+
+            # --- Term 2: - (op @ V) * U'(q) * \sum_k \mu_{n_k} P_{n_k...} ---
+            # Notice no 1.j here. The Poisson bracket naturally spits out the classical real term.
+            if len(self.bathpoly.mom_modes) > 0:
+                _new_op2 = -np.dot(self.op, V)
+
+                # Sum over all momenta to remove one by one and multiply by \mu_k
+                for k, pk in enumerate(self.bathpoly.mom_modes):
+                    mu_k = theta_func(pk.n) # theta_func computes \mu_n
+                    new_mom_modes = self.bathpoly.mom_modes[:k] + self.bathpoly.mom_modes[k+1:]
+
+                    # Multiply by U'(q) = \sum n * a_n * q^{n-1}
+                    for a, n in zip(a_n, order_list):
+                        new_poly = BathPolynomial(
+                            coeff=mu_k * a * n * self.bathpoly.coeff,
+                            pos_modes=deepcopy(self.bathpoly.pos_modes),
+                            mom_modes=new_mom_modes
+                        )
+                        if n - 1 > 0:
+                            new_poly.pos_modes += [BathMode(1, 0) for _ in range(n - 1)]
+                            new_poly.sort_pos()
+
+                        new_op2 = _new_op2 * new_poly.coeff
+                        new_poly.coeff = 1.0
+                        new_general_list.append(SBGeneralTerm(op=new_op2,   bathpoly=new_poly))
 
         return self.combine(new_general_list)
 
