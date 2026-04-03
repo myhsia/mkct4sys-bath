@@ -28,30 +28,16 @@ local function format_time(seconds)
   return string.format("%02d:%02d:%02d", hours, mins, secs)
 end
 
--- local start_overall = os.time()
--- for i, path in ipairs(model_list) do
---   print(string.format("[%d/%d] Calculating Moments", i, #model_list))
---   local _path = path .. "/moments/"
---   os.execute("cd " .. _path .. "; rm -rf *.dat; python main.py")
---   print()
--- end
--- local end_overall = os.time()
-
--- local elapsed = os.difftime(end_overall, start_overall)
--- print("Finished calculating moments.")
--- print("Total running time: " .. format_time(elapsed))
-
--- Plotting PDF
-
 local start_overall = os.time()
 for i, path in ipairs(model_list) do
-  print(string.format("[%d/%d] Plotting PDF", i, #model_list))
-  local _path = path .. "/mkct/"
-  os.execute("cd " .. _path .. "; rm -rf *.dat; rm -rf *.pdf; python run_mkct.py")
+  print(string.format("[%d/%d] Calculating Moments", i, #model_list))
+  local _path = path .. "/moments/"
+  os.execute("cd " .. _path .. "; rm -rf *.dat; python main.py")
+  os.execute("cd ../mkct; rm -rf *.dat; python main.py")
   print()
 end
 local end_overall = os.time()
 
 local elapsed = os.difftime(end_overall, start_overall)
-print("Finished plotting.")
+print("Finished calculating moments and plotting.")
 print("Total running time: " .. format_time(elapsed))
