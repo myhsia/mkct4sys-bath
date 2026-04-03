@@ -33,7 +33,7 @@ for i, path in ipairs(model_list) do
   print(string.format("[%d/%d] Calculating Moments", i, #model_list))
   local _path = path .. "/moments/"
   os.execute("cd " .. _path .. "; rm -rf *.dat; python main.py")
-  os.execute("cd ../mkct; rm -rf *.dat; python main.py")
+  os.execute("cd ../mkct; rm -rf *.dat; python run_mkct.py")
   print()
 end
 local end_overall = os.time()
