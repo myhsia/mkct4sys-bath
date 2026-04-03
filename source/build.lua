@@ -30,7 +30,7 @@ local start_overall = os.time()
 for i, path in ipairs(moments_list) do
   print(string.format("[%d/%d] Calculating Moments", i, #moments_list))
   local _path = path .. "/moments/"
-  os.execute("cd " .. _path .. "; python main.py")
+  os.execute("cd " .. _path .. "; rm -rf *.dat; python main.py")
   print()
 end
 local end_overall = os.time()
