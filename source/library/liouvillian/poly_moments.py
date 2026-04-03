@@ -88,7 +88,8 @@ def poly_moments(
 
     Nmax = max(Nmax_Omega, Nmax_tilde_Omega)
     start_prog = time.perf_counter()
-    print(tab_str("Timings"))
+    case_str = "Quantum Case" if quantum else "Classical Case"
+    print(tab_str(f"Timings ({case_str})"))
     for order in range(1, Nmax+1):
         if order <= Nmax_Omega:
             start = time.perf_counter()

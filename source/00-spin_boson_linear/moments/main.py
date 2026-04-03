@@ -80,16 +80,22 @@ def theta(n: int):
     return float(val_mp)
 
 @memory.cache
-def eta(n: int):
+def eta(n: int, quantum: bool = True):
     def integrand(w):
-        return 1 / mp.pi * J_mp(w) * w**n / mp.tanh(beta * w / 2)
+        if quantum:
+            return 1 / mp.pi * J_mp(w) * w**n / mp.tanh(beta * w / 2)
+        else:
+            return 2.0 / (mp.pi * beta) * J_mp(w) * w**(n-1)
 
     val_mp = mp.quad(integrand, [0, mp.inf])
     return float(val_mp)
 
 @memory.cache
-def expval_BathPoly_wrapper(bp_str: str) -> complex:
-    return expval_BathPoly(bp_str, theta, eta)
+def expval_BathPoly_wrapper(bp_str: str, quantum: bool = True) -> complex:
+    # Create lambda wrappers that bake in the current quantum flag
+    _theta = lambda n: theta(n)
+    _eta = lambda n: eta(n, quantum = quantum)
+    return expval_BathPoly(bp_str, _theta, _eta, quantum = quantum)
 
 
 def main():
@@ -104,12 +110,16 @@ def main():
     njobs = args.njobs
     inner_max_num_threads = args.inner_max_num_threads
 
-    poly_moments(
-        poly_coeffs,
-        Nmax_Omega, Nmax_tilde_Omega,
-        Hs, V, mu, sigma_0,
-        theta, eta, expval_BathPoly_wrapper,
-        njobs=njobs, innermax=inner_max_num_threads)
+    for _quantum in [True, False]:
+        poly_moments(
+            poly_coeffs,
+            Nmax_Omega, Nmax_tilde_Omega,
+            Hs, V, mu, sigma_0,
+            lambda n: theta(n),
+            lambda n: eta(n, quantum = _quantum),
+            lambda bp_str: expval_BathPoly_wrapper(bp_str, quantum = _quantum),
+            njobs = njobs, innermax = inner_max_num_threads,
+            quantum = _quantum),
 
 if __name__ == "__main__":
     main()
