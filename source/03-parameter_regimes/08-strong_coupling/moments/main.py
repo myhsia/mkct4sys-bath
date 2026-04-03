@@ -1,24 +1,26 @@
 # %%
-from liouvillian.poly_moments import poly_moments
-from liouvillian.expval_bath_poly import expval_BathPoly
-from copy import deepcopy
-from typing import List, Tuple, Callable
-from dataclasses import dataclass, field
-import argparse
-import time
-import sys
-import os
-from joblib import Memory
-import yaml
-import sympy as sp
-import matplotlib.pyplot as plt
-import numpy as np
 import mpmath as mp
 mp.dps = 31
 
+import numpy as np
+import matplotlib.pyplot as plt
+import sympy as sp
+import yaml
+from joblib import Memory
+
+
+import os
+import sys
+import time
+import argparse
+from dataclasses import dataclass, field
+from typing import List, Tuple, Callable
+from copy import deepcopy
 
 sys.path.append(os.path.join(os.path.dirname(__file__), "../../../library"))
+from liouvillian.expval_bath_poly import expval_BathPoly
 # from linear_moments import linear_moments
+from liouvillian.poly_moments import poly_moments
 
 
 cache_dir = "cache"
@@ -27,8 +29,8 @@ memory.clear(warn=False)
 
 # load the parameters
 with open("../params.yaml", "r") as f:
-  params = yaml.safe_load(f)
-  rescale = params["scale"]
+    params = yaml.safe_load(f)
+    rescale = params["scale"]
 
 # Define the parameters
 Nmax_Omega = params["Pade_m"] + params["Pade_n"] + 2
@@ -66,66 +68,66 @@ denominator = np.trace(mu @ mu @ sigma_0)
 
 
 def J_mp(w):
-  return 2 * lambd * w * mp.exp(-w / wD)
+    return 2 * lambd * w * mp.exp(-w / wD)
 
 
 @memory.cache
 def theta(n: int):
-  def integrand(w):
-    return 2 / mp.pi * J_mp(w) * w**n
+    def integrand(w):
+        return 2 / mp.pi * J_mp(w) * w**n
 
-  val_mp = mp.quad(integrand, [0, mp.inf])
-  return float(val_mp)
+    val_mp = mp.quad(integrand, [0, mp.inf])
+    return float(val_mp)
 
 
 @memory.cache
 def eta(n: int, quantum: bool = True):
-  def integrand(w):
-    if quantum:
-      return 1 / mp.pi * J_mp(w) * w**n / mp.tanh(beta * w / 2)
-    else:
-      return 2.0 / (mp.pi * beta) * J_mp(w) * w**(n-1)
+    def integrand(w):
+        if quantum:
+            return 1 / mp.pi * J_mp(w) * w**n / mp.tanh(beta * w / 2)
+        else:
+            return 2.0 / (mp.pi * beta) * J_mp(w) * w**(n-1)
 
-  val_mp = mp.quad(integrand, [0, mp.inf])
-  return float(val_mp)
+    val_mp = mp.quad(integrand, [0, mp.inf])
+    return float(val_mp)
 
 
 @memory.cache
 def expval_BathPoly_wrapper(bp_str: str, quantum: bool = True) -> complex:
-  # Create lambda wrappers that bake in the current quantum flag
-  def _theta(n): return theta(n)
-  def _eta(n): return eta(n, quantum=quantum)
-  return expval_BathPoly(bp_str, _theta, _eta, quantum=quantum)
+    # Create lambda wrappers that bake in the current quantum flag
+    def _theta(n): return theta(n)
+    def _eta(n): return eta(n, quantum=quantum)
+    return expval_BathPoly(bp_str, _theta, _eta, quantum=quantum)
 
 
 def main():
-  parser = argparse.ArgumentParser(
-      description="Parse command-line arguments for job settings.")
+    parser = argparse.ArgumentParser(
+        description="Parse command-line arguments for job settings.")
 
-  # Define expected arguments
-  parser.add_argument("-njobs", type=int, default=-1,
-                      help="Number of jobs to run in parallel")
-  parser.add_argument("-inner_max_num_threads", type=int,
-                      default=1, help="Max number of threads per job")
+    # Define expected arguments
+    parser.add_argument("-njobs", type=int, default=-1,
+                        help="Number of jobs to run in parallel")
+    parser.add_argument("-inner_max_num_threads", type=int,
+                        default=1, help="Max number of threads per job")
 
-  args = parser.parse_args()
-  njobs = args.njobs
-  inner_max_num_threads = args.inner_max_num_threads
+    args = parser.parse_args()
+    njobs = args.njobs
+    inner_max_num_threads = args.inner_max_num_threads
 
-  for _quantum in [True, False]:
-    poly_moments(
-        poly_coeffs,
-        Nmax_Omega, Nmax_tilde_Omega,
-        Hs, V, mu, sigma_0,
-        lambda n: theta(n),
-        lambda n: eta(n, quantum=_quantum),
-        lambda bp_str: expval_BathPoly_wrapper(bp_str, quantum=_quantum),
-        njobs=njobs, innermax=inner_max_num_threads,
-        quantum=_quantum),
+    for _quantum in [True, False]:
+        poly_moments(
+            poly_coeffs,
+            Nmax_Omega, Nmax_tilde_Omega,
+            Hs, V, mu, sigma_0,
+            lambda n: theta(n),
+            lambda n: eta(n, quantum=_quantum),
+            lambda bp_str: expval_BathPoly_wrapper(bp_str, quantum=_quantum),
+            njobs=njobs, innermax=inner_max_num_threads,
+            quantum=_quantum),
 
 
 if __name__ == "__main__":
-  main()
+    main()
 
 
 # %%
