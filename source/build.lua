@@ -2,7 +2,7 @@
               CLACULATING MOMENTS
 --]==========================================]--
 
-local moments_list = {
+local model_list = {
   "00-spin_boson_linear",
   "01-spin_boson_quad",
   "02-spin_boson_linear_quad",
@@ -19,6 +19,8 @@ local moments_list = {
   "03-parameter_regimes/08-strong_coupling"
 }
 
+-- Calculate moments
+
 local function format_time(seconds)
   local hours = math.floor(seconds / 3600)
   local mins = math.floor((seconds % 3600) / 60)
@@ -26,14 +28,30 @@ local function format_time(seconds)
   return string.format("%02d:%02d:%02d", hours, mins, secs)
 end
 
+-- local start_overall = os.time()
+-- for i, path in ipairs(model_list) do
+--   print(string.format("[%d/%d] Calculating Moments", i, #model_list))
+--   local _path = path .. "/moments/"
+--   os.execute("cd " .. _path .. "; rm -rf *.dat; python main.py")
+--   print()
+-- end
+-- local end_overall = os.time()
+
+-- local elapsed = os.difftime(end_overall, start_overall)
+-- print("Finished calculating moments.")
+-- print("Total running time: " .. format_time(elapsed))
+
+-- Plotting PDF
+
 local start_overall = os.time()
-for i, path in ipairs(moments_list) do
-  print(string.format("[%d/%d] Calculating Moments", i, #moments_list))
-  local _path = path .. "/moments/"
-  os.execute("cd " .. _path .. "; rm -rf *.dat; python main.py")
+for i, path in ipairs(model_list) do
+  print(string.format("[%d/%d] Plotting PDF", i, #model_list))
+  local _path = path .. "/mkct/"
+  os.execute("cd " .. _path .. "; rm -rf *.dat; rm -rf *.pdf; python run_mkct.py")
   print()
 end
 local end_overall = os.time()
 
 local elapsed = os.difftime(end_overall, start_overall)
-print("All tasks completed.\nTotal running time: " .. format_time(elapsed))
+print("Finished plotting.")
+print("Total running time: " .. format_time(elapsed))

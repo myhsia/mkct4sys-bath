@@ -1,6 +1,7 @@
 # %%
 import numpy as np
 import matplotlib.pyplot as plt
+from matplotlib.backends.backend_pdf import PdfPages
 import yaml
 
 import os
@@ -8,6 +9,8 @@ import sys
 sys.path.append(os.path.join(os.path.dirname(__file__), "../../library"))
 from mkct.solver import MKCT_solver
 from mkct.runner import do_fft, save_time_cmplx
+
+
 def main():
     tx, re, im = np.loadtxt("../deom/prop-pol-1.dat", unpack=True)
     C_exact = re + 1j * im
@@ -33,52 +36,57 @@ def main():
 
     K1t = solver.K1t
 
-    fig = plt.figure(dpi=300)
-    gs = fig.add_gridspec(2, 1)
-    axs = gs.subplots(sharex=True)
-    ax = axs[0]
-    ax.plot(t, K1t.real, label="K1t (real)")
-    ax.axhline(0, color='k', ls='--')
-    ax = axs[1]
-    ax.plot(t, K1t.imag, label="K1t (imag)")
-    ax.axhline(0, color='k', ls='--')
-    ax.legend()
+    with PdfPages('./01-spin_boson_quad.pdf') as pdf:
+        # Figure 1. Memory Kernel
+        fig = plt.figure()
+        gs = fig.add_gridspec(2, 1)
+        axs = gs.subplots(sharex=True)
+        ax = axs[0]
+        ax.plot(t, K1t.real, label="K1t (real)")
+        ax.axhline(0, color='k', ls='--')
+        ax = axs[1]
+        ax.plot(t, K1t.imag, label="K1t (imag)")
+        ax.axhline(0, color='k', ls='--')
+        ax.legend()
+        pdf.savefig(bbox_inches = 'tight')
+        plt.close()
 
 
-
-    fig = plt.figure(dpi=300)
-    gs = fig.add_gridspec(2, 1)
-    axs = gs.subplots(sharex=True)
-    ax = axs[0]
-    ax.plot(t, C.real, label="MKCT")
-    ax.plot(tx, C_exact.real, color='k', label="DEOM", ls='--')
-    ax.set_xlim(0, 50)
-
-    ax = axs[1]
-    ax.plot(t, C.imag)
-    ax.plot(tx, C_exact.imag, color='k', ls='--')
-    axs[0].legend()
-
-    # Zero padding to imr
-    Npad1= C_exact.size * 10
-    Npad2 = C.size * 10
-    wx, Cwx = do_fft(tx, C_exact, Npad1)
-    w, Cw = do_fft(t, C, Npad2)
+        # Figure 2. Autocorrelation Function 
+        fig = plt.figure()
+        gs = fig.add_gridspec(2, 1)
+        axs = gs.subplots(sharex=True)
+        ax = axs[0]
+        ax.plot(t, C.real, label="MKCT")
+        ax.plot(tx, C_exact.real, color='k', label="DEOM", ls='--')
+        ax.set_xlim(0, 50)
+        ax = axs[1]
+        ax.plot(t, C.imag)
+        ax.plot(tx, C_exact.imag, color='k', ls='--')
+        axs[0].legend()
+        pdf.savefig(bbox_inches = 'tight')
+        plt.close()
 
 
-    fig = plt.figure(dpi=300)
-    ax = fig.add_subplot(111)
-
-    ax.plot((-w-Delta), Cw.real, label="MKCT")
-    ax.plot((-wx-Delta), Cwx.real, color='k', ls='--', label="DEOM")
-    w0 = 0.1
-    L = 0.5
-    ax.set_xlim(w0-L, w0+L)
-    ax.axvline(w0, color='k', ls='--')
-    ax.set_xlabel(r"$\omega/\Delta$")
-    ax.set_ylabel(r"$I(\omega)$ (arb. units)")
-    ax.legend()
-    plt.show()
+        # Figure 3. Absorption Lineshape Function
+        # Zero padding to imr
+        Npad1= C_exact.size * 10
+        Npad2 = C.size * 10
+        wx, Cwx = do_fft(tx, C_exact, Npad1)
+        w, Cw = do_fft(t, C, Npad2)
+        fig = plt.figure()
+        ax = fig.add_subplot(111)
+        ax.plot((-w-Delta), Cw.real, label="MKCT")
+        ax.plot((-wx-Delta), Cwx.real, color='k', ls='--', label="DEOM")
+        w0 = 0.1
+        L = 0.5
+        ax.set_xlim(w0-L, w0+L)
+        ax.axvline(w0, color='k', ls='--')
+        ax.set_xlabel(r"$\omega/\Delta$")
+        ax.set_ylabel(r"$I(\omega)$ (arb. units)")
+        ax.legend()
+        pdf.savefig(bbox_inches = 'tight')
+        plt.close()
 
     # Save the results for final production plots
     K1t_original_scale = K1t / rescale**2
