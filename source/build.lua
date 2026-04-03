@@ -1,5 +1,5 @@
 --[==========================================[--
-                BUILDING MOMENTS
+              CLACULATING MOMENTS
 --]==========================================]--
 
 local moments_list = {
